@@ -1,0 +1,12 @@
+.logo-text {
+    font-family: 'Titan One', cursive;
+}
+
+.nav-icon {
+    font-size: 24px;
+}
+
+.left-side-nav {
+    position: fixed;
+    max-width: fit-content;
+}

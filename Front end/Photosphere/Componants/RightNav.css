@@ -1,0 +1,8 @@
+.right-side-nav {
+    position: fixed;
+    max-width: fit-content;
+}
+
+.suggested-profile-image {
+    width: 3rem;
+}
