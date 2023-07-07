@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import './ProfileDetails.css'
 import { axiosInstance } from '../../Contexts/AxioContext'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 function ProfileDetails() {
     const [userName, setUsername] = useState('No user')
@@ -8,38 +10,34 @@ function ProfileDetails() {
     const [followersCount, setFollowersCount] = useState(0)
     const [followiigCount, setFollowingCount] = useState(0)
     const [bio, setBio] = useState('No bio')
-
-    const data = {
-        1: 'username',
-        2: 'bio',
-        3: 'postCount',
-        4: 'followersCount',
-        5: 'followiigCount'
-    }
+    const navigate = useNavigate()
+    const profile = useSelector(state => state.profile)
+    const [profilepic, setProfilePic] = useState(null)
+    const mediaurl = useSelector((state) => state.mediaurl)
 
     useEffect(() => {
-        axiosInstance.get('userdetails', { params: data }).then((response) => {
-            let user_data = response.data
-            console.log(user_data);
-            setUsername(user_data.username)
-            setBio(user_data.bi)
-        })
-    })
-
+        setUsername(profile.username)
+        setBio(profile.bio)
+        setProfilePic(mediaurl + profile?.profile_img)
+        setBio(profile.bio)
+    }, [profile])
     return (
-        <div className="d-flex justify-content-around pt-3">
-            <div className='me-5'>
-                <img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt=""
-                    className='rounded-circle img-thumbnail'
-                />
+        <div className="d-flex justify-content-around pt-3 pb-3">
+            <div className='me-5'
+                style={{ maxWidth: '12vw', cursor: 'pointer' }}
+                onClick={() => navigate('/')}
+            >
+                <img src={profilepic} alt="Profile image" className='rounded-circle img-thumbnail' />
             </div>
             <div className='ms-5'>
                 <div className='d-flex pt-3 '>
                     <div >
-                        <h1>{userName}</h1>
+                        <span className='h3'>{userName}</span>
                     </div>
                     <div className='d-flex flex-column justify-content-center mx-3'>
-                        <button className=''>Edit Profile</button>
+                        <button className=''
+                            onClick={() => navigate('/editprofile')}
+                        >Edit Profile</button>
                     </div>
                     <div className='d-flex flex-column justify-content-center'>
                         <i className="bi bi-gear"></i>
@@ -54,7 +52,7 @@ function ProfileDetails() {
                     </ul>
                 </div>
                 <div className='pt-3'>
-                    <span>bio</span>
+                    <span>{bio}</span>
                 </div>
             </div>
         </div>

@@ -3,14 +3,14 @@ import './ProfilePosts.css'
 import ProfilePost from './ProfilePost'
 function ProfilePosts() {
     return (
-        <div class="row justify-content-center align-items-center g-2">
-            <div class="col ">
+        <div className="row justify-content-center align-items-center g-2">
+            <div className="col ">
                 <ProfilePost />
             </div>
-            <div class="col">
+            <div className="col">
                 <ProfilePost />
             </div>
-            <div class="col">
+            <div className="col">
                 <ProfilePost />
             </div>
         </div>

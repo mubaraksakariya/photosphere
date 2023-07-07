@@ -7,6 +7,8 @@ import AxiosContext from '../../Contexts/AxioContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../../Store/AuthRedux';
 
+
+
 function Login() {
     const navigate = useNavigate()
     const axiosInstance = useContext(AxiosContext)
@@ -15,8 +17,11 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     useEffect(() => {
-        console.log('isUser is ' + isUser);
-        if (isUser) navigate('/')
+        if (isUser) {
+            let path = localStorage.getItem('current_path')
+            if (path) navigate(path)
+            else navigate('/')
+        }
     }, [isUser])
 
     const handleSubmit = (e) => {
@@ -32,8 +37,19 @@ function Login() {
                 navigate('/')
             }
             else {
-                alert("login failed")
+                if (!response.data.user)
+                    alert("login failed")
+                else {
+                    const data = {
+                        user: response.data.user,
+                    };
+                    navigate('/verify', { state: data })
+                }
             }
+        }).then(() => {
+            axiosInstance.get('getuser').then((response) => {
+                dispatch(auth.setUser(response.data.user))
+            })
         })
     }
 

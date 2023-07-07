@@ -6,6 +6,7 @@ import AxiosContext from '../../Contexts/AxioContext';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '../../Store/AuthRedux';
+import Swal from 'sweetalert2';
 
 function Signup() {
 
@@ -62,10 +63,18 @@ function Signup() {
         }
         axiosInstance.post('signup', data).then((response) => {
             if (response.data.result) {
-                navigate('/login')
+                const data = {
+                    user: response.data.user,
+                };
+                navigate('/verify', { state: data })
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'This user already exists',
+                    text: 'Something went wrong!',
+                })
             }
         })
-        console.log(password);
     }
     return (
         <div className='container-fluid '>

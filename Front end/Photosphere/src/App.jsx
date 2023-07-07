@@ -7,6 +7,10 @@ import Dashboard from '../Pages/AdminSide/Dashboard';
 import AdminLogin from '../Pages/AdminSide/AdminLogin';
 import Signup from '../Pages/UserSide/Signup';
 import Profile from '../Pages/UserSide/Profile';
+import VerifyEmail from '../Componants/Others/VerifyEmail';
+import Users from '../Pages/AdminSide/Users';
+import EditProfile from '../Componants/Profile/EditProfile';
+import CreatePost from '../Componants/HomePage/CreatePost';
 
 
 function App() {
@@ -32,6 +36,8 @@ function User() {
       <Route path='login' element={<Login />} />
       <Route path='signup' element={<Signup />} />
       <Route path='profile' element={<Profile />} />
+      <Route path='verify' element={<VerifyEmail />} />
+      <Route path='editprofile' element={<EditProfile />} />
     </Routes>
   )
 }
@@ -43,8 +49,10 @@ function User() {
 function Admin() {
   return (
     <Routes>
+      <Route path='' element={<Dashboard />} />
       <Route path='dashboard' element={<Dashboard />} />
       <Route path='login' element={<AdminLogin />} />
+      <Route path='users' element={<Users />} />
     </Routes>
   )
 }
