@@ -1,4 +1,5 @@
 from django.db import models
+from Post.models import Post, Media
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Q
 from django.core import serializers
@@ -23,8 +24,9 @@ class CustomUser(AbstractUser):
     is_verified = models.BooleanField(default=False)
     # date_joined , is the feild for joined date or created_at
 
-    # def email_user(self, subject, message, from_email=None, **kwargs):
-    #     send_mail(subject, message, from_email, [self.email], **kwargs)
+    # @property
+    # def number_of_posts(self):
+    #     return Post.objects.filter(user=self).count()
 
 
 def authenticate(username, password):
@@ -41,4 +43,8 @@ def authenticate(username, password):
 def serialize_user(user):
     user_data = serializers.serialize("json", [user])
     user_json = json.loads(user_data)[0]["fields"]
+    number_of_posts = Post.objects.filter(user=user.id).count()
+    user_json["number_of_posts"] = number_of_posts
+    user_json.pop("password", None)
+    user_json["id"] = user.id
     return user_json

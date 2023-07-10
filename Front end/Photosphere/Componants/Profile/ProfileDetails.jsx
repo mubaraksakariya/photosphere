@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 function ProfileDetails() {
     const [userName, setUsername] = useState('No user')
-    const [postCount, serPostCount] = useState(0)
+    const [postCount, setPostCount] = useState(0)
     const [followersCount, setFollowersCount] = useState(0)
     const [followiigCount, setFollowingCount] = useState(0)
     const [bio, setBio] = useState('No bio')
@@ -20,6 +20,7 @@ function ProfileDetails() {
         setBio(profile.bio)
         setProfilePic(mediaurl + profile?.profile_img)
         setBio(profile.bio)
+        setPostCount(profile.number_of_posts)
     }, [profile])
     return (
         <div className="d-flex justify-content-around pt-3 pb-3">
@@ -27,7 +28,10 @@ function ProfileDetails() {
                 style={{ maxWidth: '12vw', cursor: 'pointer' }}
                 onClick={() => navigate('/')}
             >
-                <img src={profilepic} alt="Profile image" className='rounded-circle img-thumbnail' />
+                {profilepic ?
+                    <img src={profilepic} alt="Profile image" className='rounded-circle img-thumbnail' /> :
+                    <img src='/no-profile-picture' alt="Profile image" className='rounded-circle img-thumbnail' />
+                }
             </div>
             <div className='ms-5'>
                 <div className='d-flex pt-3 '>

@@ -9,7 +9,7 @@ from django.utils.crypto import get_random_string
 import re
 from .models import authenticate, CustomUser, serialize_user
 from .simple_token import generate_jwt_token
-
+from django.db.models import Count
 import os
 from django.core.mail import send_mail
 
@@ -122,7 +122,6 @@ def googleSignup(request):
         user = CustomUser.objects.get(email=email)
     default_storage.delete(f"{email}.jpg")
     token = generate_jwt_token(user)
-    # print(decode_jwt_token(token)['user_id'])
     return JsonResponse({"result": True, "token": token})
 
 
@@ -182,7 +181,11 @@ def resendOtp(request):
 
 @login_required
 def getuser(request):
-    user = serialize_user(request.user)
+    id = request.GET.get("user")
+    user = request.user
+    if id:
+        user = CustomUser.objects.get(id=id)
+    user = serialize_user(user=user)
     return JsonResponse({"result": True, "user": user})
 
 
@@ -199,7 +202,6 @@ def updateProfile(request):
     user.username = username
     user.last_name = last_name
     user.bio = bio
-    print(request.FILES)
     if request.FILES.get("profilepic"):
         image = user.profile_img.path
         default_storage.delete(image)

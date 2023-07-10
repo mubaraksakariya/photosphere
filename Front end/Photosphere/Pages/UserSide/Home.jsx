@@ -19,15 +19,15 @@ function Home() {
     }, [isUser])
     return (
         <div className="row justify-content-center mx-4">
-            <div className="col-md-2 ">
+            <div className="col-2 ">
                 <NavBar createpost={createpost} setCreatePost={setCreatPost} />
             </div>
-            <div className="col-md-7">
+            <div className="col-7">
                 <Stories />
                 {createpost && <CreatePost setCreatePost={setCreatPost} />}
                 <Posts />
             </div>
-            <div className="col-md-3  ">
+            <div className="col-3  ">
                 <RightNav />
             </div>
         </div>

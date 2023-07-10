@@ -50,6 +50,7 @@ function EditProfile() {
         axiosInstance.post('updateProfile', data, config).then((response) => {
             if (response.data.result) {
                 dispatch(auth.setUser(response.data.user))
+                navigate('/profile')
             }
         })
     }

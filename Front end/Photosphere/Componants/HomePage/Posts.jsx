@@ -1,40 +1,57 @@
-import React from 'react'
+import React, { useContext, useEffect, useRef, useLayoutEffect, useState } from 'react'
 import './Posts.css'
+import Post from './Post'
+import AxiosContext from '../../Contexts/AxioContext'
 function Posts() {
+    const axioinstance = useContext(AxiosContext)
+    const [posts, setPosts] = useState([])
+    const [page, setPage] = useState(1)
+    const observerRef = useRef(null);
+    const [endOfFeed, setEndOfFeed] = useState(false)
+    useEffect(() => {
+        axioinstance.get('post/getfeed', { params: { page: page } }).then((response) => {
+            if (response.data.result) {
+                let newPosts = response.data.posts
+                setPosts([...posts, ...newPosts]);
+            }
+            else {
+                observerRef.current.style.display = "none"
+                setEndOfFeed(true)
+            }
+        })
+    }, [page])
+
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setPage((page) => page + 1);
+
+                }
+            });
+        });
+
+        if (observerRef.current) {
+            observer.observe(observerRef.current);
+        }
+
+        return () => {
+            if (observerRef.current) {
+                observer.unobserve(observerRef.current);
+            }
+        };
+    }, []);
+
     return (
-        <div className="conainer-fluid   d-flex flex-column justify-content-center align-items-center ">
-            <div className="card post-box">
-                <img className="card-img-top" src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="Card image cap" />
-                <div className="card-body">
-                    <div className='d-flex'>
-                        <i className="bi bi-heart px-1"></i>
-                        <i className="bi bi-chat p-0 px-1"></i>
-                        <i className="bi bi-send px-1"></i>
-                    </div>
-                </div>
-                <div className="card-body pt-0">
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-                <div className="card-body py-0">
-                    <p>View all comments...</p>
-                </div>
-                <div className="card-body py-0">
-                    <p>Last comment</p>
-                </div>
-                <div className="card-body py-0">
-                    <p>Second Last comment</p>
-                </div>
+        <div className="conainer-fluid   d-flex flex-column justify-content-center align-items-center " style={{ minWidth: '50vw', overflow: 'auto' }}>
+            {posts.map((post) => {
 
-            </div>
-
-
-
-            <div className="card post-box">
-                <img className="card-img-top" src="https://mdbcdn.b-cdn.net/img/new/avatars/9.webp" alt="Card image cap" />
-                <div className="card-body">
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
+                return (
+                    <Post key={`posts${post.id}`} post={post} />
+                )
+            })}
+            <div ref={observerRef}>End of feed</div>
+            {endOfFeed && <div>End of feed</div>}
         </div>
     )
 }

@@ -13,7 +13,13 @@ function NavBar({ createpost, setCreatePost }) {
                 <h4 className='logo-text p-2 pt-4'>PHOTOSPHERE</h4>
             </div>
             <div className='pt-4'>
-                <div className='py-2'>
+                <div className='py-2'
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => {
+                        navigate('/')
+                        window.location.reload()
+                    }}
+                >
                     <i className="bi bi-house-door-fill nav-icon mx-2"></i>
                     <span className='h5 ps-2'>Home</span>
                 </div>
