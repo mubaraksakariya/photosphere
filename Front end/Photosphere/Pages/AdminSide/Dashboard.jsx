@@ -11,11 +11,11 @@ function Dashboard() {
     const navigate = useNavigate()
     const location = useLocation()
     const isAdmin = useSelector(state => state.isAdmin)
-    useLayoutEffect(() => {
-        console.log(isAdmin);
+    useEffect(() => {
+
         if (!isAdmin) navigate('/admin/login')
         else localStorage.setItem('current_path', location.pathname)
-    }, [])
+    }, [isAdmin])
     return (
         <div className="row justify-content-center g-2 p-3">
             <div className="col-2">

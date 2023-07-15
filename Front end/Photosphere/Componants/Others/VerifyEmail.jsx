@@ -19,9 +19,7 @@ function VerifyEmail() {
 
     useEffect(() => {
         if (isUser) navigate('/')
-        console.log(data.user);
         setUser(data.user)
-        console.log(user);
     }, [isUser])
     const manageSubmit = (event) => {
         event.preventDefault()
@@ -30,7 +28,7 @@ function VerifyEmail() {
             otp: otp,
             user: user,
         }
-        console.log(data);
+
         axiosInstance.post('verifyOtp', data).then((response) => {
             if (response.data.result) {
                 // Swal.fire(
@@ -39,7 +37,7 @@ function VerifyEmail() {
                 //     'success'
                 // )
                 let token = response.data.token
-                console.log(token);
+
                 dispatch(auth.login([token, 'user']))
                 // navigate('/')
             } else {
@@ -54,7 +52,6 @@ function VerifyEmail() {
             user: user
         }
         axiosInstance.get('resendOtp', { params: data, }).then((response) => {
-            console.log(response.data.result);
         })
     }
     return (

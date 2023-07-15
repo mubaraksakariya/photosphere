@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './NavBar.css'
 import { auth } from '../../Store/AuthRedux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { HomeContext } from '../../Contexts/HomeContext'
 
-function NavBar({ createpost, setCreatePost }) {
+function NavBar() {
+    const { createpost, setCreatePost } = useContext(HomeContext)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     return (
@@ -16,8 +18,8 @@ function NavBar({ createpost, setCreatePost }) {
                 <div className='py-2'
                     style={{ cursor: 'pointer' }}
                     onClick={() => {
-                        navigate('/')
                         window.location.reload()
+                        navigate('/')
                     }}
                 >
                     <i className="bi bi-house-door-fill nav-icon mx-2"></i>

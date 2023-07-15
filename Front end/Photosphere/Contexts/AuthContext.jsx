@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { auth } from '../Store/AuthRedux';
 import { useDispatch, useSelector } from 'react-redux';
 import AxiosContext, { axiosInstance } from './AxioContext';
@@ -7,8 +7,10 @@ function AuthContext({ children }) {
     const dispatch = useDispatch()
     const axios = useContext(AxiosContext)
     const token = localStorage.getItem('token')
-    const profile = useSelector((state) => state.profile)
-    useLayoutEffect(() => {
+    const isUser = useSelector((state) => state.isUser)
+    const isAdmin = useSelector((state) => state.isAdmin)
+
+    useEffect(() => {
         if (token != null) {
             axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             axios.get('usertype').then((response) => {
@@ -24,8 +26,9 @@ function AuthContext({ children }) {
         else {
             // console.log("token not accesible or no token")
             dispatch(auth.logout())
+
         }
-    }, [])
+    }, [isUser, isAdmin])
     return <>{children}</>;
 }
 

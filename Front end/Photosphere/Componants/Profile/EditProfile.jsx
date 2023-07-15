@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import './EditProfile.css'
 import { auth } from '../../Store/AuthRedux';
 function EditProfile() {
+    const ErrorRef = useRef()
+    const [Error, setError] = useState("")
     const axiosInstance = useContext(AxiosContext)
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -52,6 +54,8 @@ function EditProfile() {
                 dispatch(auth.setUser(response.data.user))
                 navigate('/profile')
             }
+        }).catch(() => {
+            setError("Something went Wrong")
         })
     }
     return (
@@ -85,26 +89,41 @@ function EditProfile() {
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" name="firstname" placeholder="Full Name" required="" type="text"
                                                     value={first_name}
-                                                    onChange={(e) => setFirst_name(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setFirst_name(e.target.value)
+                                                        setError('')
+                                                    }}
                                                 /><label>First Name</label>
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" name="lastname" placeholder="Full Name" required="" type="text"
                                                     value={last_name}
-                                                    onChange={(e) => setLastname(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setLastname(e.target.value)
+                                                        setError('')
+                                                    }}
                                                 /><label>Last Name</label>
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" name="username" placeholder="Username" required="" type="text"
                                                     value={username}
-                                                    onChange={(e) => setUsername(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setUsername(e.target.value)
+                                                        setError('')
+                                                    }}
                                                 /><label>Username</label>
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" name="bio" placeholder="bio" required="" type="text"
                                                     value={bio}
-                                                    onChange={(e) => setBio(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setBio(e.target.value)
+                                                        setError('')
+                                                    }}
                                                 /><label>Bio</label>
+                                            </div>
+                                            <div className="form-floating mb-3 d-flex justify-content-center">
+                                                <span ref={ErrorRef}>{Error}</span>
                                             </div>
                                             <div className="form-floating mb-3 d-flex justify-content-center">
                                                 <input type="file" name="" id="" style={{ display: 'none' }}

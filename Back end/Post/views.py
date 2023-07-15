@@ -6,6 +6,7 @@ from User.models import CustomUser
 from .models import Post, Media, Like, Comment
 from django.core.paginator import Paginator
 from rest_framework.decorators import api_view
+from django.forms.models import model_to_dict
 
 # Create your views here.
 
@@ -32,7 +33,8 @@ def createpost(request):
             file=file,
             post=post,
         )
-    return JsonResponse({"result": True})
+    post = model_to_dict(Post.objects.get(id=post.id))
+    return JsonResponse({"result": True, "post": post})
 
 
 @login_required
@@ -53,6 +55,7 @@ def profileposts(request):
 @login_required
 def getmedia(request):
     post_id = request.GET.get("post_id")
+    print(post_id)
     post = Post.objects.get(id=post_id)
     media = Media.objects.filter(post=post).values_list("file", flat=True)
     return JsonResponse({"result": True, "media": list(media)})
@@ -62,8 +65,7 @@ def getmedia(request):
 def getfeed(request):
     allPosts = Post.objects.all().values()
     page_number = int(request.GET.get("page"))
-    print((page_number))
-    paginator = Paginator(allPosts, 1)
+    paginator = Paginator(allPosts, 5)
     if page_number <= paginator.num_pages:
         posts = paginator.get_page(page_number)
         for post in posts:
@@ -76,7 +78,6 @@ def getfeed(request):
     else:
         posts = None
         return JsonResponse({"result": False, "posts": posts})
-    print(posts)
     return JsonResponse({"result": True, "posts": list(posts)})
 
 
@@ -107,10 +108,13 @@ def commentonpost(request):
 def getcomments(request):
     post = request.GET.get("post_id")
     count = int(request.GET.get("count"))
-    post = Post.objects.get(id=post)
-    comments = (
-        Comment.objects.filter(post=post).order_by("-created_at").values()[:count]
-    )
+    comments = None
+    print(post, count)
+    if post:
+        post = Post.objects.get(id=post)
+        comments = (
+            Comment.objects.filter(post=post).order_by("-created_at").values()[:count]
+        )
 
     return JsonResponse({"result": True, "comments": list(comments)})
 

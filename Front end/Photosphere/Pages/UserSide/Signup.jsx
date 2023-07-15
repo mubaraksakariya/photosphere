@@ -28,7 +28,7 @@ function Signup() {
 
     const handleGoogleSignup = (credentialResponse) => {
         const jwt_token = jwt_decode(credentialResponse.credential)
-        console.log(jwt_token);
+
         const data = {
             token: jwt_token,
         }

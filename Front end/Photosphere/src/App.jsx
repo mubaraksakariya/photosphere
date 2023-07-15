@@ -10,7 +10,8 @@ import Profile from '../Pages/UserSide/Profile';
 import VerifyEmail from '../Componants/Others/VerifyEmail';
 import Users from '../Pages/AdminSide/Users';
 import EditProfile from '../Componants/Profile/EditProfile';
-import CreatePost from '../Componants/HomePage/CreatePost';
+import CreatePost from '../Componants/Post/CreatePost';
+import { HomeProvider } from '../Contexts/HomeContext';
 
 
 function App() {
@@ -31,14 +32,16 @@ function App() {
 
 function User() {
   return (
-    <Routes>
-      <Route path='' element={<Home />} />
-      <Route path='login' element={<Login />} />
-      <Route path='signup' element={<Signup />} />
-      <Route path='profile' element={<Profile />} />
-      <Route path='verify' element={<VerifyEmail />} />
-      <Route path='editprofile' element={<EditProfile />} />
-    </Routes>
+    <HomeProvider>
+      <Routes>
+        <Route path='' element={<Home />} />
+        <Route path='login' element={<Login />} />
+        <Route path='signup' element={<Signup />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='verify' element={<VerifyEmail />} />
+        <Route path='editprofile' element={<EditProfile />} />
+      </Routes>
+    </HomeProvider>
   )
 }
 

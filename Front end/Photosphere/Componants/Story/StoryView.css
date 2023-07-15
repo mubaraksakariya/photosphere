@@ -1,0 +1,53 @@
+/* .story-top-div {
+    height: 100vh;
+
+}
+
+.story-top-bar {
+    position: relative;
+    min-width: 100%;
+}
+
+.story-image-div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.corousealComp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 60vh;
+}
+
+.carousel-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+/* .thumbs {
+    display: none;
+} */
+
+.slide {
+    min-height: 90vh;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.control-dots {
+    display: none;
+}
+
+.active {
+    min-width: 100%;
+    display: none;
+}

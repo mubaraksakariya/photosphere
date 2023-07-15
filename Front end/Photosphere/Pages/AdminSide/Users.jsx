@@ -5,7 +5,7 @@ import AdminNavTop from '../../Componants/Admin/AdminNavTop';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AxiosContext from '../../Contexts/AxioContext';
 import UserTableRow from '../../Componants/Admin/UsersTableRow';
-
+import { v4 as uuidv4 } from 'uuid';
 function Users() {
     const navigate = useNavigate()
     const isAdmin = useSelector(state => state.isAdmin)
@@ -70,7 +70,7 @@ function Users() {
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <UserTableRow key={user.id} user={user} />
+                                    <UserTableRow key={uuidv4()} user={user} />
                                 ))}
                             </tbody>
                         </table>

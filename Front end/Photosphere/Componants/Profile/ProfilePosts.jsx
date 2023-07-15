@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import './ProfilePosts.css'
 import ProfilePost from './ProfilePost'
 import AxiosContext from '../../Contexts/AxioContext'
+import { v4 as uuidv4 } from 'uuid';
+
 function ProfilePosts() {
     const axiosInstance = useContext(AxiosContext)
     const [posts, setPosts] = useState([])
@@ -26,7 +28,7 @@ function ProfilePosts() {
                 : <>
                     {posts.map((post) => {
                         return (
-                            <div className="col-md-4 d-flex justify-content-center align-items-center" key={post.id}>
+                            <div className="col-md-4 d-flex justify-content-center align-items-center" key={uuidv4()}>
                                 <ProfilePost post={post} />
                             </div>
                         )

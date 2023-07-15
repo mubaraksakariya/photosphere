@@ -1,0 +1,30 @@
+.story-image {
+    min-height: 3.8rem;
+    min-width: 3.8rem;
+    max-width: 3.8rem;
+}
+
+.signaldiv {
+    min-width: 4.3rem;
+    max-width: 4.3rem;
+    border-radius: 50%;
+}
+
+.stories {
+    z-index: 10;
+}
+
+.plus-icon {
+    font-size: 3.4rem;
+    color: rgb(185, 79, 79);
+}
+
+.circle-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #e7dada;
+}

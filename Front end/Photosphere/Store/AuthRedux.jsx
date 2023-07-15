@@ -27,9 +27,11 @@ const authState = createSlice({
         logout(state, action) {
             state.isUser = false
             state.isAdmin = false
+            state.profile = {}
             localStorage.removeItem('token');
             localStorage.removeItem('current_path');
             delete axiosInstance.defaults.headers.common['Authorization'];
+            // window.location.reload()
 
         },
     }

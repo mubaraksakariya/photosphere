@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import AxiosContext, { axiosInstance } from '../../Contexts/AxioContext';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { v4 as uuidv4 } from 'uuid';
+
 const UserTableRow = ({ user }) => {
     const [user_d, setUser_d] = useState({})
     const axiosInstance = useContext(AxiosContext)
@@ -36,7 +38,7 @@ const UserTableRow = ({ user }) => {
 
     }
     return (
-        <tr key={user_d.id}>
+        <tr key={uuidv4()}>
             <th scope="row">{user_d.id}</th>
             <td>{user_d.first_name}</td>
             <td>{user_d.last_name}</td>
