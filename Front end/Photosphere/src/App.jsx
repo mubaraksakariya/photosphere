@@ -10,8 +10,10 @@ import Profile from '../Pages/UserSide/Profile';
 import VerifyEmail from '../Componants/Others/VerifyEmail';
 import Users from '../Pages/AdminSide/Users';
 import EditProfile from '../Componants/Profile/EditProfile';
-import CreatePost from '../Componants/Post/CreatePost';
 import { HomeProvider } from '../Contexts/HomeContext';
+import UserProfile from '../Pages/UserSide/UserProfile';
+import ChatFullpage from '../Pages/UserSide/ChatFullpage';
+import PostList from '../Pages/AdminSide/PostList';
 
 
 function App() {
@@ -40,6 +42,8 @@ function User() {
         <Route path='profile' element={<Profile />} />
         <Route path='verify' element={<VerifyEmail />} />
         <Route path='editprofile' element={<EditProfile />} />
+        <Route path='userprofile' element={<UserProfile />} />
+        <Route path='chat' element={<ChatFullpage />} />
       </Routes>
     </HomeProvider>
   )
@@ -56,6 +60,7 @@ function Admin() {
       <Route path='dashboard' element={<Dashboard />} />
       <Route path='login' element={<AdminLogin />} />
       <Route path='users' element={<Users />} />
+      <Route path='postlist' element={<PostList />} />
     </Routes>
   )
 }

@@ -5,7 +5,7 @@ import { HomeContext } from '../../Contexts/HomeContext';
 
 function CreateStory() {
     const axiosInstance = useContext(AxiosContext);
-    const { setIsStory, setStories } = useContext(HomeContext)
+    const { setIsStory, setStories, setStoryUerList } = useContext(HomeContext)
 
     const fileRef = useRef();
     const [file, setFile] = useState(null);
@@ -31,7 +31,7 @@ function CreateStory() {
         };
         axiosInstance.post('story/createstory', data, config).then((response) => {
             if (response.data.result) {
-                setStories(old => [...old, ...response.data.story])
+                // setStoryUerList(old => [...old, response.data.user])
                 setIsStory(false)
             }
         });

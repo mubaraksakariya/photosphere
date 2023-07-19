@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import './AdminNav.css'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 function AdminNav() {
     const profile = useSelector((state) => state.profile)
     const navigate = useNavigate()
+
     return (
         <div className='border-end  ' style={{ minHeight: '90vh' }}>
             <div className='py-2 '>
@@ -26,7 +27,10 @@ function AdminNav() {
                 >
                     Users
                 </div>
-                <div className='py-2'>
+                <div className='py-2'
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => navigate('/admin/postlist/')}
+                >
                     Posts
                 </div>
             </div>

@@ -29,14 +29,13 @@ function PostComment({ comment, post, comments, setComments, comment_index }) {
     }
 
     return (
-        <div className="card-body py-0">
+        <div className="card-body py-2">
             <div style={{ display: 'inline-block', cursor: 'pointer' }}>
                 <img src={mediaUrl + commentUser.profile_img} alt=""
                     className='rounded-circle img-thumbnail comment-profile-image'
                 />
-                <span>{commentUser.username} :</span>
+                <span> {commentUser.username} : </span>
             </div>
-
 
             <div className="dropstart float-end">
                 <span className="" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" >
@@ -50,7 +49,7 @@ function PostComment({ comment, post, comments, setComments, comment_index }) {
                     <li><a className="dropdown-item" href="#">report</a></li>
                 </ul>
             </div>
-            <span>{comment.text}</span>
+            <span> {comment.text}</span>
 
         </div>
     )

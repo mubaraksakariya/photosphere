@@ -11,7 +11,6 @@ function Posts() {
     const [page, setPage] = useState(1)
     const observerRef = useRef(null);
     const [endOfFeed, setEndOfFeed] = useState(false)
-
     useEffect(() => {
         axioinstance.get('post/getfeed', { params: { page: page } }).then((response) => {
             if (response.data.result) {
@@ -31,13 +30,14 @@ function Posts() {
                 observerRef.current.style.display = "none"
                 setEndOfFeed(true)
             }
-            if (posts) setIsLoading(false)
+
         })
+        if (posts) setIsLoading(false)
     }, [page])
 
     useEffect(() => {
         setIsLoading(false)
-    }, [posts, createpost])
+    }, [createpost])
 
 
     useEffect(() => {
@@ -62,11 +62,11 @@ function Posts() {
     }, []);
 
     return (
-        <div className="conainer-fluid   d-flex flex-column justify-content-center align-items-center " style={{ minWidth: '50vw', overflow: 'auto' }}>
+        <div className="conainer-fluid   d-flex flex-column justify-content-center align-items-center " style={{ minWidth: '50vw' }}>
             {isLoading &&
                 <Spinner />
             }
-            {posts.map((post, index) => {
+            {posts.map((post) => {
                 return (
                     <Post key={uuidv4()} post={post} />
                 )

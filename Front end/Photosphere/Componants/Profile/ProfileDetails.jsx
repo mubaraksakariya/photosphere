@@ -5,41 +5,34 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function ProfileDetails() {
-    const [userName, setUsername] = useState('No user')
-    const [postCount, setPostCount] = useState(0)
-    const [followersCount, setFollowersCount] = useState(0)
+
     const [followiigCount, setFollowingCount] = useState(0)
-    const [bio, setBio] = useState('No bio')
     const navigate = useNavigate()
     const profile = useSelector(state => state.profile)
     const [profilepic, setProfilePic] = useState(null)
     const mediaurl = useSelector((state) => state.mediaurl)
 
     useEffect(() => {
-        setUsername(profile.username)
-        setBio(profile.bio)
-        setProfilePic(mediaurl + profile?.profile_img)
-        setBio(profile.bio)
-        setPostCount(profile.number_of_posts)
+        console.log(profile);
     }, [profile])
     return (
         <div className="d-flex justify-content-around pt-3 pb-3">
-            <div className='me-5'
-                style={{ maxWidth: '12vw', cursor: 'pointer' }}
+            <div className='me-5 profile-img-div'
                 onClick={() => navigate('/')}
+                style={{ cursor: 'pointer' }}
             >
-                {profilepic ?
-                    <img src={profilepic} alt="Profile image" className='rounded-circle img-thumbnail' /> :
-                    <img src='/no-profile-picture' alt="Profile image" className='rounded-circle img-thumbnail' />
+                {profile.profile_img ?
+                    <img src={mediaurl + profile.profile_img} alt="Profile image" className='profile-img' /> :
+                    <img src='/no-profile-picture' alt="Profile image" className='profile-img' />
                 }
             </div>
             <div className='ms-5'>
                 <div className='d-flex pt-3 '>
                     <div >
-                        <span className='h3'>{userName}</span>
+                        <span className='h3'>{profile.username}</span>
                     </div>
                     <div className='d-flex flex-column justify-content-center mx-3'>
-                        <button className=''
+                        <button className='btn btn-sm btn-secondary'
                             onClick={() => navigate('/editprofile')}
                         >Edit Profile</button>
                     </div>
@@ -49,14 +42,14 @@ function ProfileDetails() {
                 </div>
                 <div className='pt-3'>
                     <ul className="d-flex p-0 m-0">
-                        <li className="list-group-item pe-4">Posts {postCount}</li>
-                        <li className="list-group-item pe-4">Followers {followersCount}</li>
-                        <li className="list-group-item">Following {followiigCount}</li>
+                        <li className="list-group-item pe-4">Posts {profile.number_of_posts}</li>
+                        <li className="list-group-item pe-4">Followers {profile.followersCount}</li>
+                        <li className="list-group-item">Following {profile.followiigCount}</li>
 
                     </ul>
                 </div>
                 <div className='pt-3'>
-                    <span>{bio}</span>
+                    <span>{profile.bio}</span>
                 </div>
             </div>
         </div>

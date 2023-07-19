@@ -39,7 +39,9 @@ def createpost(request):
 
 @login_required
 def profileposts(request):
-    user = request.user
+    user = request.GET.get("user")
+    if user is None:
+        user = request.user
     allPosts = Post.objects.filter(user=user).values()
     if allPosts.count() > 0:
         for post in allPosts:
@@ -55,7 +57,6 @@ def profileposts(request):
 @login_required
 def getmedia(request):
     post_id = request.GET.get("post_id")
-    print(post_id)
     post = Post.objects.get(id=post_id)
     media = Media.objects.filter(post=post).values_list("file", flat=True)
     return JsonResponse({"result": True, "media": list(media)})
@@ -107,14 +108,20 @@ def commentonpost(request):
 @login_required
 def getcomments(request):
     post = request.GET.get("post_id")
-    count = int(request.GET.get("count"))
+    count = request.GET.get("count")
     comments = None
-    print(post, count)
     if post:
         post = Post.objects.get(id=post)
-        comments = (
-            Comment.objects.filter(post=post).order_by("-created_at").values()[:count]
-        )
+        if not count == None:
+            comments = (
+                Comment.objects.filter(post=post)
+                .order_by("-created_at")
+                .values()[: int(count)]
+            )
+        else:
+            comments = (
+                Comment.objects.filter(post=post).order_by("-created_at").values()
+            )
 
     return JsonResponse({"result": True, "comments": list(comments)})
 

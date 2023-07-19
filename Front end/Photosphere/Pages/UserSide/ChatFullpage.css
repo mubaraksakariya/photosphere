@@ -1,0 +1,22 @@
+.chat-main-div {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-user-side {
+    min-height: 80vh;
+    max-height: 80vh;
+    width: 100%;
+
+}
+
+.chat-user-div{
+    overflow:scroll;
+    height: 90%;
+}
+.chat-user-div::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}

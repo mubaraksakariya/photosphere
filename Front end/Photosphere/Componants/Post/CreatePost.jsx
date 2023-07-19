@@ -8,8 +8,9 @@ function CreatePost() {
     const { setCreatePost, setPosts, setIsLoading } = useContext(HomeContext)
     const [isfiles, setIsfiles] = useState(false)
     const [files, setFiles] = useState(null)
-    const [caption, setCaption] = useState('')
+    // const [caption, setCaption] = useState('')
     const fileref = useRef(null)
+    const captionRef = useRef(null)
 
     const handleFileinput = (e) => {
         let fileInput = e.target.files
@@ -25,7 +26,7 @@ function CreatePost() {
         for (let i = 0; i < files.length; i++) {
             data.append('files', files[i]);
         }
-        data.append('caption', caption);
+        data.append('caption', captionRef.current.value);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
@@ -126,8 +127,9 @@ function CreatePost() {
 
                     <div className="col-3 w-100">
                         <textarea rows="2" className='w-100' placeholder='Caption' style={{ resize: 'none' }}
-                            value={caption}
-                            onChange={(e) => setCaption(e.target.value)}
+                            // value={caption}
+                            // onChange={(e) => setCaption(e.target.value)}
+                            ref={captionRef}
                         />
                     </div>
 

@@ -1,12 +1,15 @@
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './Post.css'
 import AxiosContext from '../../Contexts/AxioContext'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import PostComment from './PostComment'
 import { v4 as uuidv4 } from 'uuid';
+import { HomeContext } from '../../Contexts/HomeContext'
+
 function Post({ post }) {
     const axioinstance = useContext(AxiosContext)
+    const { setIsPostView, setPosts } = useContext(HomeContext)
     const mediaUrl = useSelector((state) => state.mediaurl)
     const [media, setMedia] = useState([])
     const [postowner, setPostowner] = useState([])
@@ -16,6 +19,7 @@ function Post({ post }) {
     const commentRef = useRef()
     const commentTextRef = useRef()
     const [comments, setComments] = useState([])
+    const profile = useSelector(state => state.profile)
     useEffect(() => {
         axioinstance.get('post/getmedia', { params: { post_id: post.id } }).then((response) => {
             if (response.data.result) {
@@ -46,6 +50,19 @@ function Post({ post }) {
                 if (postLike) setTotalLiks((like) => like - 1)
                 else setTotalLiks((like) => like + 1)
                 setPostLike(!postLike)
+                setPosts(oldPosts => {
+                    const updatedPosts = oldPosts.map(post => {
+                        if (post.id === post.id) {
+                            return {
+                                ...post,
+                                is_liked: !postLike,
+                                total_likes: postLike ? post.total_likes - 1 : post.total_likes + 1
+                            };
+                        }
+                        return post;
+                    });
+                    return updatedPosts;
+                });
             }
         })
     }
@@ -68,20 +85,28 @@ function Post({ post }) {
             }
         })
     }
-
+    const redirectToProfile = () => {
+        if (profile.id == postowner.id) navigate('profile')
+        else navigate('userprofile', { state: { user: postowner.id } })
+    }
+    const openPost = () => {
+        setIsPostView({ post: true, post: post, media: media, postowner, postowner })
+    }
     return (
         <div className="card post-box" style={{ width: '100%' }}>
             <div className="pt-1 px-3 d-flex border-bottom">
-                <div
-                    onClick={() => navigate('/')}
-                    style={{ cursor: 'pointer' }}
-                >
-                    <img src={mediaUrl + postowner.profile_img} alt=""
-                        className='rounded-circle img-thumbnail postowner-profile-image'
-
-                    />
-                    <span>{postowner.username}</span>
-                </div>
+                {postowner &&
+                    <div
+                        onClick={redirectToProfile}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <img src={mediaUrl + postowner.profile_img} alt=""
+                            className='rounded-circle img-thumbnail postowner-profile-image'
+                            loading="lazy"
+                        />
+                        <span>{postowner.username}</span>
+                    </div>
+                }
             </div>
             <div className="card-body p-0">
                 <div id={post.id} className="carousel slide d-flex flex-column justify-content-around" style={{ maxHeight: '500px', height: '500px', overflow: 'hidden' }}>
@@ -95,12 +120,12 @@ function Post({ post }) {
                         </div>
                     </>
                     }
-                    <div className="carousel-inner ">
+                    <div className="carousel-inner " style={{ cursor: 'pointer' }} onClick={openPost}>
                         {
                             media.map((image, index) => {
                                 return (
                                     <div className={`carousel-item${index === 0 ? ' active' : ''} col-10`} key={uuidv4()}>
-                                        <img src={mediaUrl + image} className="d-block w-100" alt={`image${index}`} onDoubleClick={manageLike} />
+                                        <img src={mediaUrl + image} className="d-block w-100" alt={`image${index}`} onDoubleClick={manageLike} loading="lazy" />
                                     </div>
                                 )
                             })

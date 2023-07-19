@@ -11,6 +11,7 @@ const HomeProvider = ({ children }) => {
     const [posts, setPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [storyUserList, setStoryUerList] = useState([])
+    const [isPostview, setIsPostView] = useState({ post: false, post_id: null })
 
     return (
         <HomeContext.Provider
@@ -21,14 +22,16 @@ const HomeProvider = ({ children }) => {
                 setStoryView,
                 isStory,
                 setIsStory,
-                stories,
-                setStories,
+                // stories,
+                // setStories,
                 posts,
                 setPosts,
                 isLoading,
                 setIsLoading,
                 storyUserList,
-                setStoryUerList
+                setStoryUerList,
+                isPostview,
+                setIsPostView
             }}
         >
             {children}

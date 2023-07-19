@@ -19,8 +19,10 @@ function ProfilePost({ post }) {
         })
     }, [])
     return (
-        <div className="card d-flex justify-content-center align-items-center bg-light-subtle" style={{ minHeight: '250px', minWidth: '250px', maxWidth: '250px', maxHeight: '250px', overflow: 'hidden', objectFit: 'fill' }}>
-            <img className="card-img-top" src={mediaUrl + mediaList[0]} alt="Card image" />
+        <div className="card d-flex justify-content-center align-items-center bg-light-subtle" style={{ minHeight: '250px', minWidth: '250px', maxWidth: '250px', maxHeight: '250px', overflow: 'hidden' }}>
+            <img className="" src={mediaUrl + mediaList[0]} alt="Card image"
+                style={{ width: 'auto', height: '100%', position: 'absolute' }}
+            />
             <div className="card-img-overlay d-flex flex-column justify-content-center align-items-center"
                 style={{ opacity: 0 }}
                 onPointerEnter={(event) => {

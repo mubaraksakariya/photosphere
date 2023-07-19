@@ -10,6 +10,7 @@ import StoyNav from '../../Componants/HomePage/StoyNav'
 import Stories from '../../Componants/Story/Stories'
 import CreateStory from '../../Componants/Story/CreateStory'
 import { HomeContext } from '../../Contexts/HomeContext';
+import PostView from '../../Componants/Post/PostView'
 
 function Home() {
     const isUser = useSelector(state => state.isUser)
@@ -20,6 +21,7 @@ function Home() {
         createpost,
         storyview,
         isStory,
+        isPostview,
     } = useContext(HomeContext);
 
     useEffect(() => {
@@ -28,14 +30,20 @@ function Home() {
     }, [isUser])
 
     useEffect(() => {
-        if (storyview.story || isStory || createpost) {
+        if (storyview.story || isStory || createpost || isPostview.post) {
             document.body.style.overflow = 'hidden'; // Disable scrolling
         } else {
             document.body.style.overflow = ''; // Enable scrolling
         }
-    }, [storyview, isStory, createpost]);
+    }, [storyview, isStory, createpost, isPostview]);
     return (
         <>
+            {
+                isPostview.post &&
+                <div className='overlay'>
+                    <PostView />
+                </div>
+            }
             {
                 storyview.story &&
                 <div className='overlay'>

@@ -6,6 +6,10 @@ from django.core import serializers
 import json
 
 
+def default_profile_image_path():
+    return "Profile_img/male.jpg"
+
+
 class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=20, blank=True)
     profile_img = models.ImageField(
@@ -14,7 +18,7 @@ class CustomUser(AbstractUser):
         width_field=None,
         max_length=None,
         blank=True,
-        default="media/male.jpg",
+        default=default_profile_image_path,
     )
     bio = models.TextField(blank=True)
     otp = models.CharField(max_length=6, default="", blank=True)
@@ -40,11 +44,32 @@ def authenticate(username, password):
         return None
 
 
-def serialize_user(user):
+def serialize_user(user, currentUser=None):
+    if currentUser == None:
+        currentUser = user
     user_data = serializers.serialize("json", [user])
     user_json = json.loads(user_data)[0]["fields"]
-    number_of_posts = Post.objects.filter(user=user.id).count()
-    user_json["number_of_posts"] = number_of_posts
+    user_json["number_of_posts"] = Post.objects.filter(user=user.id).count()
     user_json.pop("password", None)
     user_json["id"] = user.id
+    user_json["is_following"] = Follow.objects.filter(
+        user=currentUser, following_id=user.id
+    ).exists()
+    user_json["followersCount"] = Follow.objects.filter(following=user).count()
+    user_json["followiigCount"] = Follow.objects.filter(user=user).count()
+
     return user_json
+
+
+def serialize_users(users_queryset, currentUser=None):
+    serialized_users = [serialize_user(user, currentUser) for user in users_queryset]
+    return serialized_users
+
+
+class Follow(models.Model):
+    user = models.ForeignKey("CustomUser", on_delete=models.CASCADE)
+    following = models.ForeignKey(
+        "CustomUser", on_delete=models.CASCADE, related_name="following"
+    )
+    created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True, auto_now_add=False)

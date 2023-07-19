@@ -7,18 +7,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 function StoyNav() {
     const axiosInstance = useContext(AxiosContext)
-    const { setIsStory, setStories, storyUserList, setStoryUerList } = useContext(HomeContext)
+    const { isStory, setIsStory, storyUserList, setStoryUerList } = useContext(HomeContext)
 
     useEffect(() => {
         axiosInstance.get('story/getstories').then(response => {
             if (response.data.result) {
-                let allStories = response.data.stories;
-                setStories(allStories);
-                let userIds = [...new Set(allStories.map(story => story.user_id))]
+                let userIds = response.data.users;
+                // setStories(allStories);
+                // let userIds = [...new Set(allStories.map(story => story.user_id))]
                 setStoryUerList(userIds)
             }
         })
-    }, [])
+    }, [isStory])
 
     return (
         <div className="container-fluid w-100   d-flex p-4">

@@ -33,7 +33,7 @@ function NavBar() {
                     <i className="bi bi-compass-fill nav-icon mx-2"></i>
                     <span className='h5 ps-2'>Explore</span>
                 </div>
-                <div className='py-2'>
+                <div className='py-2' style={{ cursor: 'pointer' }} onClick={() => navigate('/chat')}>
                     <i className="bi bi-chat-quote-fill nav-icon mx-2"></i>
                     <span className='h5 ps-2'>Messages</span>
                 </div>

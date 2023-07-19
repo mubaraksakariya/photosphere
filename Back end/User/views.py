@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.utils.crypto import get_random_string
 import re
-from .models import authenticate, CustomUser, serialize_user
+from .models import authenticate, CustomUser, serialize_user, Follow
 from .simple_token import generate_jwt_token
 import os
 from django.core.mail import send_mail
@@ -122,7 +122,7 @@ def googleSignup(request):
         user = CustomUser.objects.get(email=email)
     default_storage.delete(f"{email}.jpg")
     token = generate_jwt_token(user)
-    user = serialize_user(user)
+    user = serialize_user(user, user)
     return JsonResponse({"result": True, "token": token, "user": user})
 
 
@@ -134,7 +134,7 @@ def signin(request):
     user = authenticate(username=email, password=password)
     if user is not None and user.is_verified:
         token = generate_jwt_token(user=user)
-        user = serialize_user(user)
+        user = serialize_user(user, user)
         return JsonResponse({"result": True, "token": token, "user": user})
     else:
         if user is not None:
@@ -187,11 +187,11 @@ def getuser(request):
     if id:
         user = CustomUser.objects.get(id=id)
         id = user.id
-    user = serialize_user(user=user)
-    user["user_id"] = id
+    user = serialize_user(user, request.user)
     return JsonResponse({"result": True, "user": user})
 
 
+@login_required
 @csrf_exempt
 def updateProfile(request):
     email = request.POST.get("email")
@@ -210,4 +210,18 @@ def updateProfile(request):
         default_storage.delete(image)
         user.profile_img = request.FILES["profilepic"]
     user.save()
-    return JsonResponse({"result": True, "user": serialize_user(user)})
+    return JsonResponse({"result": True, "user": serialize_user(user, request.user)})
+
+
+@login_required
+@csrf_exempt
+def follow(request):
+    user = int(request.GET.get("user"))
+    user_to_follow = CustomUser.objects.get(id=user)
+    if not Follow.objects.filter(user=request.user, following=user_to_follow).exists():
+        follow = Follow.objects.create(user=request.user, following=user_to_follow)
+    else:
+        Follow.objects.get(user=request.user, following=user_to_follow).delete()
+    return JsonResponse(
+        {"result": True, "user": serialize_user(user_to_follow, request.user)}
+    )

@@ -2,22 +2,14 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-import requests
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from django.utils.crypto import get_random_string
-import re
 from User.models import authenticate, CustomUser, serialize_user
 from User.simple_token import generate_jwt_token
 from django.core import serializers
 import os
-from django.core.mail import send_mail
 from django.db.models import Q
 from functools import wraps
-
-import random
-
-# Create your views here.
+from Post.models import Post
+from Post.models import serialize_post, serialize_posts, Post
 
 
 def login_required(func):
@@ -57,6 +49,7 @@ def allusers(request):
             Q(username__icontains=searchString)
             | Q(email__icontains=searchString)
             | Q(first_name__icontains=searchString)
+            | Q(id__icontains=searchString)
         )
         .exclude(is_superuser=True)
         .values()
@@ -73,3 +66,19 @@ def toggleBlock(request):
         return JsonResponse({"result": True, "user": serialize_user(user)})
     else:
         return JsonResponse({"result": False})
+
+
+def postlist(request):
+    searchString = request.GET.get("searchString")
+    if searchString is None:
+        searchString = ""
+    query = Q()
+    search_terms = searchString.split()
+    for term in search_terms:
+        query |= Q(id__icontains=term)
+        query |= Q(user__id__icontains=term)
+        query |= Q(user__username__icontains=term)
+
+    allPosts = Post.objects.filter(query)
+    allPosts = serialize_posts(allPosts)
+    return JsonResponse({"result": True, "allPosts": allPosts})

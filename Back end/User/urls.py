@@ -11,4 +11,5 @@ urlpatterns = [
     path("resendOtp", views.resendOtp, name="resendOtp"),
     path("getuser", views.getuser, name="getuser"),
     path("updateProfile", views.updateProfile, name="updateProfile"),
+    path("follow", views.follow, name="follow"),
 ]

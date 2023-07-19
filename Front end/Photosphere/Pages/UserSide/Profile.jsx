@@ -4,7 +4,6 @@ import ProfileDetails from '../../Componants/Profile/ProfileDetails'
 import ProfilePosts from '../../Componants/Profile/ProfilePosts'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import AxiosContext from '../../Contexts/AxioContext'
 
 
 function Profile() {

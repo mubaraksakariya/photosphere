@@ -1,28 +1,35 @@
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './StoryTHumbnail.css'
 import AxiosContext from '../../Contexts/AxioContext'
 import { useSelector } from 'react-redux'
 import { HomeContext } from '../../Contexts/HomeContext'
 
-function StoryTHumbnail({ index }) {
+function StoryTHumbnail({ index, user }) {
     const signalRef = useRef()
-    const { setStoryView, storyview, storyUserList, stories } = useContext(HomeContext)
+    const { setStoryView, storyview, storyUserList } = useContext(HomeContext)
     const axiosInstance = useContext(AxiosContext)
     const [storyOwner, setStoryOwner] = useState(null)
+    const [stories, setStories] = useState([])
     const mediaurl = useSelector(state => state.mediaurl)
 
     useEffect(() => {
-        axiosInstance.get('getuser', { params: { user: storyUserList[index] } }).then(response => {
+        axiosInstance.get('getuser', { params: { user: user } }).then(response => {
             if (response.data.result) {
                 let user = response.data.user
                 setStoryOwner(user)
             }
         })
+
     }, [])
 
-    useLayoutEffect(() => {
-        if (storyOwner) {
-            let currentUserStories = stories.filter((story) => !story.is_viewed && story.user_id == storyOwner.id)
+    useEffect(() => {
+        axiosInstance.get('story/getstories', { params: { user_id: user } }).then(response => {
+            if (response.data.result) {
+                setStories(response.data.stories)
+            }
+        })
+        if (storyOwner && stories) {
+            let currentUserStories = stories.filter((story) => !story.is_viewed)
             if (currentUserStories.length == 0) {
                 signalRef.current.style.backgroundColor = 'white'
             }
@@ -32,10 +39,10 @@ function StoryTHumbnail({ index }) {
         }
 
 
-    }, [storyview, storyOwner])
+    }, [storyview, storyOwner, stories])
 
     const manageStoryClick = () => {
-        setStoryView({ story: true, index: index })
+        setStoryView({ story: true, index: index, stories: stories, setStories: setStories, storyOwner })
     }
     return (
         <div className='px-2'>

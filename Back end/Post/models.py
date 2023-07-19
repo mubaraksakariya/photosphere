@@ -1,4 +1,6 @@
 from django.db import models
+from django.core import serializers
+from django.forms import model_to_dict
 
 
 class CustomManager(models.Manager):
@@ -60,3 +62,20 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+
+def serialize_post(post):
+    post_json = model_to_dict(post)
+    post_json.pop("_state", None)
+    post_json["id"] = post.pk
+    post_json["likes_count"] = post.total_likes
+    post_json["comments_count"] = post.total_comments
+    post_json["media_files"] = list(post.media_files)
+    post_json["created_at"] = post.created_at.strftime("%d-%m-%Y %H:%M:%S")
+    post_json["updated_at"] = post.updated_at.strftime("%d-%m-%Y %H:%M:%S")
+    return post_json
+
+
+def serialize_posts(posts):
+    serialized_posts = [serialize_post(post) for post in posts]
+    return serialized_posts
