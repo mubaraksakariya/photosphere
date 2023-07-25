@@ -90,7 +90,7 @@ function Post({ post }) {
         else navigate('userprofile', { state: { user: postowner.id } })
     }
     const openPost = () => {
-        setIsPostView({ post: true, post: post, media: media, postowner, postowner })
+        setIsPostView({ post: true, post: post, media: media, postowner: postowner })
     }
     return (
         <div className="card post-box" style={{ width: '100%' }}>

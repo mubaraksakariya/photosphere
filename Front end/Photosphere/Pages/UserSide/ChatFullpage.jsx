@@ -14,23 +14,23 @@ function ChatFullpage() {
     useEffect(() => {
         axioinstance.get('chat/getusers').then(response => {
             let allUsers = response.data.users
-            console.log(allUsers);
             setUsers(allUsers)
+            setCurrentChat(allUsers[0])
         })
     }, [])
     return (
-        <div className="container chat-main-div">
-            <div className="row chat-user-side">
-                <div className="col-md-3 p-2 m-1 border border-dark rounded">
-                    <form className="row g-3">
-                        <div className="col-8">
+        <div className="container main-div">
+            <div className="row chat-side">
+                <div className="col-md-3 p-2 m-1 border border-dark rounded chat-user-div">
+                    <form className="row g-3 d-flex justify-content-end">
+                        <div className="col-7">
                             <input type="text" className="form-control" id="inputPassword2" placeholder="Search" />
                         </div>
                         <div className="col-4">
                             <button type="submit" className="btn btn-primary mb-3 ">search</button>
                         </div>
                     </form>
-                    <div className='chat-user-div'>
+                    <div className='users-div'>
                         {
                             users.map((user) => {
                                 return (<ChatUser key={uuidv4()} user={user} setCurrentChat={setCurrentChat} />)
@@ -38,9 +38,9 @@ function ChatFullpage() {
                         }
                     </div>
                 </div>
-                {/* <div className="col"></div> */}
-                <div className="col-md-8 m-1 border border-dark rounded">
-                    <ChatBox currentChat={currentChat} />
+
+                <div className="col-md-8 m-1 border border-dark rounded chat-box-div">
+                    <ChatBox key={currentChat} currentChat={currentChat} />
                 </div>
             </div>
         </div >

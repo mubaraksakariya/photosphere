@@ -1,0 +1,9 @@
+.chat-img{
+    width: 2rem;
+    object-fit:scale-down;
+
+}
+.chat-img-div{
+    border: radius 50%;
+    margin-inline:5px ;
+}

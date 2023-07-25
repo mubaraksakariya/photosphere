@@ -1,22 +1,30 @@
-.chat-main-div {
+.main-div {
     display: flex;
     min-height: 100vh;
+    max-height: 100vh;
     justify-content: center;
     align-items: center;
 }
 
-.chat-user-side {
+.chat-side {
     min-height: 80vh;
     max-height: 80vh;
-    width: 100%;
-
+    min-width: 80vw;
+  
+}
+form{
+    max-height: fit-content;
+}
+.chat-user-div {
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 8px; /* Add some padding for better styling */
 }
 
-.chat-user-div{
-    overflow:scroll;
-    height: 90%;
+.chat-box-div {
+    min-height: 80vh;
+    max-height: 80vh;
+    
 }
-.chat-user-div::-webkit-scrollbar{
-    width: 0;
-    height: 0;
+.users-div{
+    overflow-y: auto;
 }
