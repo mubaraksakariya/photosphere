@@ -20,7 +20,6 @@ function ChatBox({ currentChat }) {
     const [receivedMessage, setReceivedMessage] = useState(null);
     const socket = useContext(WebSocketContext);
     const profile = useSelector(state => state.profile)
-    const [isTyping, setIsTyping] = useState(false)
 
     const handleEmojiSelect = (emoji) => {
         const emojiText = emoji.native;
@@ -28,13 +27,16 @@ function ChatBox({ currentChat }) {
     };
 
     useEffect(() => {
-        axioinstance.get('chat/getmessagehistory', { params: { reciever: currentChat.id } }).then(response => {
-            if (response.data.result) {
-                let usermessage = response.data.messages
-                setMessageHistory(old => usermessage)
-            }
-        })
+        if (currentChat) {
+            axioinstance.get('chat/getmessagehistory', { params: { reciever: currentChat.id } }).then(response => {
+                if (response.data.result) {
+                    let usermessage = response.data.messages
+                    setMessageHistory(old => usermessage)
+                }
+            })
+        }
     }, [currentChat])
+
     useEffect(() => {
         if (socket) {
             // Set up a listener for incoming messages
@@ -44,13 +46,6 @@ function ChatBox({ currentChat }) {
                 if (currentChat.id === sender_id) {
                     if (data.text !== '_USER_IS_TYPING_')
                         setReceivedMessage(data);
-                    else {
-                        setIsTyping(true);
-                        // clearTimeout(typingTimeout);
-                        typingTimeout = setTimeout(() => {
-                            setIsTyping(false);
-                        }, 2500);
-                    }
                 }
             }
         }
@@ -84,6 +79,7 @@ function ChatBox({ currentChat }) {
         }
 
     };
+
     const manageTyping = () => {
         if (socket) {
             const messageObject = {
@@ -94,36 +90,48 @@ function ChatBox({ currentChat }) {
             socket.send(JSON.stringify(messageObject))
         }
     }
+
     const navigateToProfile = (() => navigate('/userprofile/', { state: { user: currentChat.id } }))
 
     return (
         <div className='chat-box'>
             <div className="chat-box-first" >
-                <ChatUser user={currentChat} setCurrentChat={navigateToProfile} isTyping={isTyping} />
+                <ChatUser user={currentChat} setCurrentChat={navigateToProfile} />
             </div>
             <div className="chat-box-second border border-black rounded" ref={scrollRef}>
-                {messageHistory.map(message => {
-                    return (
-                        <Box key={uuidv4()} message={message} currentChat={currentChat} />
-                    )
-                })}
+                {
+                    messageHistory && messageHistory.length <= 0 ?
+                        <div className='p-5'>
+                            <div className="row justify-content-center align-items-center g-2 p-5">
+                                <div className="col-12 d-flex justify-content-center p-2 p-5">
+                                    <p className='p-5'>No chat yet</p>
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        messageHistory.map(message => {
+                            return (
+                                <Box key={uuidv4()} message={message} currentChat={currentChat} />
+                            )
+                        })
+                }
             </div>
             <div className="chat-box-third ">
-                <form class="d-flex pe-2" role="search">
-                    <div class="btn-group dropup">
-                        <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                <form className="d-flex pe-2" role="search">
+                    <div className="btn-group dropup">
+                        <button type="button" className="btn" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             😀
                         </button>
-                        <ul class="dropdown-menu p-0 m-0">
-                            <li class="dropdown-item p-0 m-0 ">
+                        <ul className="dropdown-menu p-0 m-0">
+                            <li className="dropdown-item p-0 m-0 ">
                                 <Picker data={data} onEmojiSelect={handleEmojiSelect} />
                             </li>
                         </ul>
                     </div>
-                    <input class="form-control me-2 w-100" type="text" placeholder="text.." aria-label="chat" ref={inputRef}
+                    <input className="form-control me-2 w-100" type="text" placeholder="text.." aria-label="chat" ref={inputRef}
                         onChange={manageTyping}
                     />
-                    <button class="btn btn-outline-success" type="submit"
+                    <button className="btn btn-outline-success" type="submit"
                         onClick={manageSend}
                     >send</button>
                 </form>

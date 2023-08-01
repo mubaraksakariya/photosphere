@@ -8,13 +8,33 @@ const WebSocketProvider = ({ children }) => {
     const webSocketAddress = import.meta.env.VITE_SOCKET_ADDRESS;
 
     useEffect(() => {
-        if (token) {
-            const newSocket = new WebSocket(`${webSocketAddress}?token=${token}`);
-            setSocket(newSocket);
+        let newSocket = null;
 
-            // Clean up the WebSocket connection when the component unmounts
-            return () => {
+        const connectSocket = () => {
+            newSocket = new WebSocket(`${webSocketAddress}?token=${token}`);
+
+            newSocket.onopen = () => {
+                console.log('WebSocket connected');
+                setSocket(newSocket);
+            };
+
+            newSocket.onclose = (event) => {
+                console.log('WebSocket disconnected');
+                setTimeout(connectSocket, 2000);
+            };
+
+            newSocket.onerror = (error) => {
+                console.error('WebSocket error:', error);
                 newSocket.close();
+            };
+        };
+
+        if (token) {
+            connectSocket();
+            return () => {
+                if (newSocket) {
+                    newSocket.close();
+                }
             };
         }
     }, [token]);

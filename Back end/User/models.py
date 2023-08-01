@@ -26,6 +26,7 @@ class CustomUser(AbstractUser):
     is_deleted = models.BooleanField(default=False)
     modified_at = models.DateTimeField(auto_now=True, auto_now_add=False)
     is_verified = models.BooleanField(default=False)
+    is_online = models.BooleanField(default=False)
     # date_joined , is the feild for joined date or created_at
 
     # @property

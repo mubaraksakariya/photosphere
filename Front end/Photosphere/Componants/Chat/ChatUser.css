@@ -21,3 +21,16 @@ p{
 .last-seen{
     font-size: x-small;
 }
+
+.online-indicator {
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 50%;
+    background-color: rgb(61, 244, 61);
+  }
+.unread-indicator{
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 50%;
+    background-color: rgb(237, 25, 25); 
+}

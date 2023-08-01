@@ -19,12 +19,14 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 connected_users[
                     sender.id
                 ] = self  # Add the WebSocket connection to the mapping.
+                await self.mark_user_online(sender.id, True)
 
     async def disconnect(self, close_code):
         # Remove the WebSocket connection from the mapping when disconnected.
         for user_id, connection in connected_users.items():
             if connection == self:
                 del connected_users[user_id]
+                await self.mark_user_online(user_id, False)
                 break
 
     async def receive(self, text_data):
@@ -42,12 +44,13 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 )
             await self.send_message_to_user(receiver, message_content, sender)
 
-    async def send_message_to_user(self, receiver, message, sender):
+    async def send_message_to_user(self, receiver, message, sender, type="chat"):
         recipient_connection = connected_users.get(receiver.id)
         if recipient_connection:
             await recipient_connection.send(
                 text_data=json.dumps(
                     {
+                        "type": type,
                         "text": message,
                         "sender": sender.id,
                         "receiver": receiver.id,
@@ -62,3 +65,13 @@ class MessageConsumer(AsyncWebsocketConsumer):
             return sender
         except:
             return None
+
+    async def mark_user_online(self, user_id, value):
+        print(user_id)
+        print(value)
+        try:
+            user = await sync_to_async(CustomUser.objects.get)(id=user_id)
+            user.is_online = value
+            await sync_to_async(user.save)()
+        except:
+            print("user dose not exists or some other error")

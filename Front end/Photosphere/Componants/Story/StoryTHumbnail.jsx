@@ -39,7 +39,7 @@ function StoryTHumbnail({ index, user }) {
         }
 
 
-    }, [storyview, storyOwner, stories])
+    }, [storyview, storyOwner])
 
     const manageStoryClick = () => {
         setStoryView({ story: true, index: index, stories: stories, setStories: setStories, storyOwner })

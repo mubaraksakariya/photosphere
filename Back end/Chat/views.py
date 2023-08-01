@@ -4,21 +4,28 @@ from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from User.models import CustomUser, serialize_user, serialize_users
-from rest_framework.decorators import api_view
+from User.views import login_required
 from django.http import JsonResponse
 from .models import Message, serialize_chat, serialize_chats
 
 # Create your views here.
 
 
+@login_required
 def getusers(request):
+    search_string = request.GET.get("searchString", "").strip()
+    if search_string == None:
+        search_string = ""
     users = (
-        CustomUser.objects.all().exclude(is_superuser=True).exclude(id=request.user.id)
+        CustomUser.objects.filter(username__icontains=search_string)
+        .exclude(is_superuser=True)
+        .exclude(id=request.user.id)
     )
     users = serialize_users(users)
     return JsonResponse({"result": True, "users": users})
 
 
+@login_required
 def getmessagehistory(request):
     sender = request.user
     reciever = request.GET.get("reciever")

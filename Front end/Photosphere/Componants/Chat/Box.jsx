@@ -7,7 +7,7 @@ function Box({ message, currentChat }) {
     const mediaurl = useSelector(state => state.mediaurl)
 
     return (
-        <div className='p-2'>
+        <div className='p-2 box'>
             {profile.id !== message.sender ?
                 <div className="row justify-content-center align-items-center g-2">
                     <div className="col d-flex justify-content-start p-2">
