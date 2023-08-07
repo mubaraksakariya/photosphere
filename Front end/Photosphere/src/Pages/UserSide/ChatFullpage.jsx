@@ -4,8 +4,8 @@ import AxiosContext from '../../Contexts/AxioContext'
 import { useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid';
 import ChatBox from '../../Componants/Chat/ChatBox';
-import ChatUser from '../../Componants/Chat/chatUser';
 import { useNavigate } from 'react-router-dom';
+import ChatUser from '../../Componants/Chat/chatUser';
 
 function ChatFullpage() {
     const [users, setUsers] = useState([])
