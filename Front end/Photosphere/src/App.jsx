@@ -1,19 +1,19 @@
 import { useState } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from '../Pages/UserSide/Home';
-import Login from '../Pages/UserSide/Login';
-import Dashboard from '../Pages/AdminSide/Dashboard';
-import AdminLogin from '../Pages/AdminSide/AdminLogin';
-import Signup from '../Pages/UserSide/Signup';
-import Profile from '../Pages/UserSide/Profile';
-import VerifyEmail from '../Componants/Others/VerifyEmail';
-import Users from '../Pages/AdminSide/Users';
-import EditProfile from '../Componants/Profile/EditProfile';
-import { HomeProvider } from '../Contexts/HomeContext';
-import UserProfile from '../Pages/UserSide/UserProfile';
-import ChatFullpage from '../Pages/UserSide/ChatFullpage';
-import PostList from '../Pages/AdminSide/PostList';
+import Home from './Pages/UserSide/Home';
+import Login from './Pages/UserSide/Login';
+import Dashboard from './Pages/AdminSide/Dashboard';
+import AdminLogin from './Pages/AdminSide/AdminLogin';
+import Signup from './Pages/UserSide/Signup';
+import Profile from './Pages/UserSide/Profile';
+import VerifyEmail from './Componants/Others/VerifyEmail';
+import Users from './Pages/AdminSide/Users';
+import EditProfile from './Componants/Profile/EditProfile';
+import { HomeProvider } from './Contexts/HomeContext';
+import UserProfile from './Pages/UserSide/UserProfile';
+import ChatFullpage from './Pages/UserSide/ChatFullpage';
+import PostList from './Pages/AdminSide/PostList';
 
 
 function App() {

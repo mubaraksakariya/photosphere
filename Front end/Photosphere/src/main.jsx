@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import AxiosContext, { axiosInstance } from '../Contexts/AxioContext.jsx';
+import AxiosContext, { axiosInstance } from './Contexts/AxioContext.jsx';
 import { Provider } from 'react-redux'
-import store from '../Store/AuthRedux.jsx';
-import AuthContext from '../Contexts/AuthContext.jsx';
-import { WebSocketProvider } from '../Contexts/WebSocketContext.jsx';
+import store from './Store/AuthRedux.jsx';
+import AuthContext from './Contexts/AuthContext.jsx';
+import { WebSocketProvider } from './Contexts/WebSocketContext.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
