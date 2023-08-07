@@ -35,6 +35,7 @@ function ChatBox({ currentChat }) {
                 }
             })
         }
+
     }, [currentChat])
 
     useEffect(() => {
