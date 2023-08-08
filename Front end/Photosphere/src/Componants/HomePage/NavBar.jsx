@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import './NavBar.css'
+import './Navbar.css'
 import { auth } from '../../Store/AuthRedux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
