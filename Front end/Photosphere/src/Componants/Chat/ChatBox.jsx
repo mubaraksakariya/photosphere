@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './ChatBox.css'
-import ChatUser from './chatUser';
+import ChatUser from './ChatUser';
 import { useNavigate } from 'react-router-dom';
 import { WebSocketContext } from '../../Contexts/WebSocketContext';
 import AxiosContext from '../../Contexts/AxioContext';

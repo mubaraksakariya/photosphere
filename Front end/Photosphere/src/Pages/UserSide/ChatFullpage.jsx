@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import './ChatFullpage.css'
 import AxiosContext from '../../Contexts/AxioContext'
-import { useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid';
 import ChatBox from '../../Componants/Chat/ChatBox';
 import { useNavigate } from 'react-router-dom';
-import ChatUser from '../../Componants/Chat/chatUser';
+import ChatUser from '../../Componants/Chat/ChatUser';
 
 function ChatFullpage() {
     const [users, setUsers] = useState([])
