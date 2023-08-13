@@ -4,7 +4,7 @@ import { axiosInstance } from '../Contexts/AxioContext';
 
 const authState = createSlice({
     name: 'authentication',
-    initialState: { isUser: false, isAdmin: false, profile: {}, mediaurl: 'http://127.0.0.1:8000/media/' },
+    initialState: { isUser: false, isAdmin: false, profile: {}, mediaurl: import.meta.env.VITE_MEDIA_URL },
     reducers: {
         login(state, action) {
             let token = action.payload[0]
