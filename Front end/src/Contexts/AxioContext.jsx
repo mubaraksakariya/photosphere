@@ -3,7 +3,7 @@ import React from 'react';
 
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://http://52.66.201.78/api/',
+    baseURL: 'http://52.66.201.78/api/',
     headers: {
         'Content-Type': 'application/json',
     },
