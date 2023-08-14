@@ -3,7 +3,7 @@ import React from 'react';
 
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://52.66.201.78/api/',
+    baseURL: import.meta.env.VITE_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
