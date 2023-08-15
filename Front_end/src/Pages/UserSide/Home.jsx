@@ -64,14 +64,14 @@ function Home() {
             }
 
             <div className="row justify-content-center mx-4">
-                <div className="col-md-2 ">
+                <div className="col-md-2 navbar-bottom ">
                     <NavBar />
                 </div>
                 <div className="col-md-7">
                     <StoyNav />
                     <Posts />
                 </div>
-                <div className="col-md-3 ">
+                <div className="col-md-3 hide-right-nav">
                     <RightNav />
                 </div>
             </div>

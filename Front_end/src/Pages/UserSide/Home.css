@@ -1,3 +1,4 @@
+/* Existing styles for .overlay */
 .overlay {
     position: fixed;
     top: 0;
@@ -5,6 +6,32 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
+    z-index: 999;
     color: white;
+}
+
+/* Add styles for .navbar-bottom and .hide-right-nav */
+@media (max-width: 767px) {
+    .navbar-bottom {
+        display: flex;
+        justify-content: center;
+        padding: 0%;
+        width: 100%;
+        height: fit-content;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: rgb(254, 254, 254);
+        z-index: 9999;
+    }
+
+    .hide-right-nav {
+        display: none; /* Hide the RightNav component on mobile screens */
+    }
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+    }
 }

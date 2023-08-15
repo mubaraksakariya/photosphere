@@ -8,5 +8,27 @@
 
 .left-side-nav {
     position: fixed;
-    max-width: fit-content;
+}
+.navbar-items{
+    padding-top: 4px;
+}
+@media (max-width: 767px) {
+    .navbar-items{
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        margin: 0%;
+    }
+    .left-side-nav{
+        width: 100%;
+        position:relative;
+        padding: 0%;
+        margin: 0%;
+    }
+    .small-screen-item-hide{
+        display: none;
+    }
+    .nav-icon{
+        font-size: x-large;
+    }
 }
