@@ -77,7 +77,8 @@ function PostView() {
     return (
         <div className="container" >
             <div className="row main-post-div">
-                <div className="col-8">
+                <div className="col-md-8">
+                    <i class="bi bi-x-square float-end close-botton-smallscreen" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
                     <div className="card-body p-0">
                         <div id={currentPost.id} className="carousel slide d-flex flex-column justify-content-around" style={{ maxHeight: '500px', height: '500px', overflow: 'hidden' }}>
                             {/* {media.length > 1 && <>
@@ -115,8 +116,8 @@ function PostView() {
                         </div>
                     </div>
                 </div>
-                <div className="col-4">
-                    <i class="bi bi-x-square float-end" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
+                <div className="col-md-4 post-details-smallscreen">
+                    <i class="bi bi-x-square float-end close-botton" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
                     <div className='user-div'
                         onClick={redirectToProfile}
                         style={{ cursor: 'pointer' }}
@@ -153,7 +154,7 @@ function PostView() {
                                     <span>No Comments yet<br />Post a comment...  </span>
                             }
                         </div>
-                        <div className="">
+                        <div className="comment-input">
                             <div className="card-body py-0 pb-1" >
                                 <form action="" className='d-flex'
                                     onSubmit={manageNewComment}

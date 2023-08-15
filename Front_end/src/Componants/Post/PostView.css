@@ -38,3 +38,28 @@
 .comment-div::-webkit-scrollbar {
     width: 0px;
 }
+.close-botton{
+    display: block;
+}
+.close-botton-smallscreen{
+    display: none;
+}
+@media (max-width: 767px) {
+    .main-post-div{
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+    .comment-div{
+        max-height: fit-content;
+        min-height: max-content;
+    }
+    .comment-input{
+        padding-bottom: 10vh;
+    }
+    .close-botton-smallscreen{
+        display: block;
+    }
+    .close-botton{
+        display: none;
+    }
+}
