@@ -16,6 +16,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         if token:
             sender = await self.get_user_from_token(token)
             if sender:
+                print("new user conncected")
                 connected_users[
                     sender.id
                 ] = self  # Add the WebSocket connection to the mapping.
