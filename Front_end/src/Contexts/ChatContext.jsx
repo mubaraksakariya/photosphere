@@ -29,7 +29,8 @@ const ChatProvider = ({ children }) => {
     const chatContextValues = {
         isTyping,
         hasUnreadMessage,
-        newMessage
+        newMessage,
+        setNewMessage
     };
 
     return (

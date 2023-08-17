@@ -4,13 +4,12 @@ import { useSelector } from 'react-redux'
 import BeatLoader from "react-spinners/BeatLoader";
 import { ChatContext } from '../../Contexts/ChatContext';
 
-function ChatUser({ user, setCurrentChat }) {
+function ChatUser({ user, setCurrentChat, showUnreadNotification }) {
     const mediaurl = useSelector(state => state.mediaurl)
     const [isTyping, setIsTyping] = useState(false)
     const [hasUnreadMessage, setHasUnreadMessage] = useState(false)
     const { newMessage } = useContext(ChatContext);
     useEffect(() => {
-        console.log("is typing works");
         if (newMessage) {
             let sender_id = newMessage.sender
             if (user.id == sender_id && newMessage.text === '_USER_IS_TYPING_') {
@@ -24,6 +23,9 @@ function ChatUser({ user, setCurrentChat }) {
             }
         }
     }, [newMessage])
+    useEffect(() => {
+        setHasUnreadMessage(old => false)
+    }, [user])
     return (
 
         <div className='p-2 my-1 border border-dark rounded'
@@ -45,7 +47,7 @@ function ChatUser({ user, setCurrentChat }) {
                     loading={isTyping}
                 />
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "center" }} className='px-3'>
-                    {hasUnreadMessage && <div className="unread-indicator">new</div>}
+                    {hasUnreadMessage && showUnreadNotification && <div className="unread-indicator">new</div>}
                 </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: "center" }} className='px-3'>

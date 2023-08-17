@@ -20,7 +20,7 @@ function ChatBox({ currentChat }) {
     const [messageHistory, setMessageHistory] = useState([]);
     const socket = useContext(WebSocketContext);
     const profile = useSelector(state => state.profile)
-    const { newMessage } = useContext(ChatContext);
+    const { newMessage, setNewMessage } = useContext(ChatContext);
     const handleEmojiSelect = (emoji) => {
         const emojiText = emoji.native;
         inputRef.current.value += emojiText;
@@ -43,6 +43,7 @@ function ChatBox({ currentChat }) {
             let sender_id = newMessage.sender
             if (currentChat.id == sender_id && newMessage.text !== '_USER_IS_TYPING_') {
                 setMessageHistory(old => [...old, newMessage]);
+                setNewMessage("_USER_IS_TYPING_")
             }
         }
     }, [newMessage])
@@ -86,7 +87,7 @@ function ChatBox({ currentChat }) {
     return (
         <div className='chat-box'>
             <div className="chat-box-first" >
-                <ChatUser user={currentChat} setCurrentChat={navigateToProfile} />
+                <ChatUser user={currentChat} setCurrentChat={navigateToProfile} showUnreadNotification={false} />
             </div>
             <div className="chat-box-second border border-black rounded" ref={scrollRef}>
                 {

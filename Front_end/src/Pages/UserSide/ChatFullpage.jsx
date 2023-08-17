@@ -50,7 +50,7 @@ function ChatFullpage() {
                     <div className='users-div'>
                         {
                             users && users.map((user) => {
-                                return (<ChatUser key={uuidv4()} user={user} setCurrentChat={setCurrentChat} />)
+                                return (<ChatUser key={uuidv4()} user={user} setCurrentChat={setCurrentChat} showUnreadNotification={true} />)
                             })
                         }
                     </div>
