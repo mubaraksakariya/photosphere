@@ -2,32 +2,28 @@ import React, { useContext, useEffect, useState } from 'react'
 import './ChatUser.css'
 import { useSelector } from 'react-redux'
 import BeatLoader from "react-spinners/BeatLoader";
-import { WebSocketContext } from '../../Contexts/WebSocketContext';
+import { ChatContext } from '../../Contexts/ChatContext';
 
 function ChatUser({ user, setCurrentChat }) {
     const mediaurl = useSelector(state => state.mediaurl)
-    const socket = useContext(WebSocketContext);
     const [isTyping, setIsTyping] = useState(false)
     const [hasUnreadMessage, setHasUnreadMessage] = useState(false)
+    const { newMessage } = useContext(ChatContext);
     useEffect(() => {
-        if (socket) {
-            // Set up a listener for incoming messages
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                let sender_id = data.sender
-                if (user.id == sender_id && data.text === '_USER_IS_TYPING_') {
-                    console.log(data.text);
-                    setIsTyping(true);
-                    const typingTimeout = setTimeout(() => {
-                        setIsTyping(false);
-                    }, 2500);
-                }
-                if (user.id == sender_id && data.text !== '_USER_IS_TYPING_') {
-                    setHasUnreadMessage(true)
-                }
+        console.log("is typing works");
+        if (newMessage) {
+            let sender_id = newMessage.sender
+            if (user.id == sender_id && newMessage.text === '_USER_IS_TYPING_') {
+                setIsTyping(true);
+                const typingTimeout = setTimeout(() => {
+                    setIsTyping(false);
+                }, 2500);
+            }
+            if (user.id == sender_id && newMessage.text !== '_USER_IS_TYPING_') {
+                setHasUnreadMessage(true)
             }
         }
-    }, [socket])
+    }, [newMessage])
     return (
 
         <div className='p-2 my-1 border border-dark rounded'

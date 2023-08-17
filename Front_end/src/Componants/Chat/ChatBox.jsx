@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import Box from './Box';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import { ChatContext } from '../../Contexts/ChatContext';
 
 
 function ChatBox({ currentChat }) {
@@ -17,10 +18,9 @@ function ChatBox({ currentChat }) {
     const navigate = useNavigate()
     const axioinstance = useContext(AxiosContext)
     const [messageHistory, setMessageHistory] = useState([]);
-    const [receivedMessage, setReceivedMessage] = useState(null);
     const socket = useContext(WebSocketContext);
     const profile = useSelector(state => state.profile)
-
+    const { newMessage } = useContext(ChatContext);
     const handleEmojiSelect = (emoji) => {
         const emojiText = emoji.native;
         inputRef.current.value += emojiText;
@@ -31,7 +31,7 @@ function ChatBox({ currentChat }) {
             axioinstance.get('chat/getmessagehistory', { params: { reciever: currentChat.id } }).then(response => {
                 if (response.data.result) {
                     let usermessage = response.data.messages
-                    setMessageHistory(old => usermessage)
+                    setMessageHistory(usermessage)
                 }
             })
         }
@@ -39,24 +39,13 @@ function ChatBox({ currentChat }) {
     }, [currentChat])
 
     useEffect(() => {
-        if (socket) {
-            // Set up a listener for incoming messages
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                let sender_id = data.sender
-                if (currentChat.id === sender_id) {
-                    if (data.text !== '_USER_IS_TYPING_')
-                        setReceivedMessage(data);
-                }
+        if (newMessage) {
+            let sender_id = newMessage.sender
+            if (currentChat.id == sender_id && newMessage.text !== '_USER_IS_TYPING_') {
+                setMessageHistory(old => [...old, newMessage]);
             }
         }
-    }, [socket])
-
-    useEffect(() => {
-        if (receivedMessage) {
-            setMessageHistory(old => [...old, receivedMessage]);
-        }
-    }, [receivedMessage])
+    }, [newMessage])
 
     useLayoutEffect(() => {
         if (scrollRef && scrollRef.current) {

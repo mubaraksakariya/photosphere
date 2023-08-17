@@ -1,7 +1,7 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 import json
-
+from datetime import datetime
 from User.models import CustomUser
 from User.simple_token import decode_jwt_token
 from Chat.models import Message
@@ -55,6 +55,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
                         "text": message,
                         "sender": sender.id,
                         "receiver": receiver.id,
+                        "timestamp": datetime.now().isoformat(),
                     }
                 )
             )
