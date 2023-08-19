@@ -1,0 +1,21 @@
+.notification-main-div{
+    background-color: white;
+    min-height:100dvh;
+}
+.header{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header img{
+    padding: 0 0 0 0;
+    position: absolute;
+    max-width: 35px;
+    left: 0px;
+}
+.notification-close-button{
+    padding: 0 5px 0 0;
+    position: absolute;
+    right: 0px;
+}

@@ -9,6 +9,6 @@ def getnotifications(request):
     notifications = serialize_notifications(notifications)
     response_data = {
         "result": True,
-        "notifications": notifications,
+        "notifications": list(notifications),
     }
     return JsonResponse(response_data)

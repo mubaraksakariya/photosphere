@@ -14,7 +14,7 @@ import { HomeProvider } from './Contexts/HomeContext';
 import UserProfile from './Pages/UserSide/UserProfile';
 import ChatFullpage from './Pages/UserSide/ChatFullpage';
 import PostList from './Pages/AdminSide/PostList';
-import Notifications from './Pages/UserSide/Notifications';
+import Notifications from './Componants/HomePage/Notifications';
 
 
 function App() {
@@ -45,7 +45,6 @@ function User() {
         <Route path='editprofile' element={<EditProfile />} />
         <Route path='userprofile' element={<UserProfile />} />
         <Route path='chat' element={<ChatFullpage />} />
-        <Route path='notifications' element={<Notifications />} />
       </Routes>
     </HomeProvider>
   )
