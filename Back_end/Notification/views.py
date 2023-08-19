@@ -1,12 +1,10 @@
 from django.http import JsonResponse
-from django.shortcuts import render
 
 # Create your views here.
 
 
 def getnotifications(request):
-    JsonResponse(
-        {
-            "result": True,
-        }
-    )
+    response_data = {
+        "result": True,
+    }
+    return JsonResponse(response_data)
