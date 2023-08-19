@@ -21,12 +21,14 @@ class CustomUser(AbstractUser):
         default=default_profile_image_path,
     )
     bio = models.TextField(blank=True)
+    is_private = models.BooleanField(default=False)
     otp = models.CharField(max_length=6, default="", blank=True)
     is_blocked = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     modified_at = models.DateTimeField(auto_now=True, auto_now_add=False)
     is_verified = models.BooleanField(default=False)
     is_online = models.BooleanField(default=False)
+
     # date_joined , is the feild for joined date or created_at
 
     # @property
@@ -74,3 +76,4 @@ class Follow(models.Model):
     )
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+    is_accepted = models.BooleanField(default=False)

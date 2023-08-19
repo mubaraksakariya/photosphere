@@ -5,7 +5,7 @@ function GoogleLogin() {
         <div className="App">
             <GoogleLogin
                 onSuccess={credentialResponse => {
-
+                    console.log(credentialResponse);
                 }}
 
                 onError={() => {

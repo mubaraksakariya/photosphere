@@ -3,6 +3,7 @@ import './RightNav.css'
 import AxiosContext from '../../Contexts/AxioContext'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { ChatContext } from '../../Contexts/ChatContext'
 
 function RightNav() {
     const axiosInstance = useContext(AxiosContext)
@@ -12,13 +13,15 @@ function RightNav() {
     const [profilepic, setProfilePic] = useState(null)
     const profile = useSelector(state => state.profile)
     const mediaurl = useSelector((state) => state.mediaurl)
-
+    const { newMessage, setNewMessage } = useContext(ChatContext)
     useEffect(() => {
         setFirst_name(profile.first_name)
         setUsername(profile.username)
         setProfilePic(mediaurl + profile?.profile_img)
-    })
-
+    }, [])
+    useEffect(() => {
+        console.log((newMessage));
+    }, [newMessage])
     return (
         <div className="container-fluid position-fixed right-side-nav">
             <div className="pb-5 pt-3">

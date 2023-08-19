@@ -9,7 +9,6 @@ const WebSocketProvider = ({ children }) => {
 
     useEffect(() => {
         let newSocket = null;
-
         const connectSocket = () => {
             newSocket = new WebSocket(`${webSocketAddress}?token=${token}`);
 

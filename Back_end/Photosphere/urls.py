@@ -9,4 +9,5 @@ urlpatterns = [
     path("api/post/", include("Post.urls")),
     path("api/story/", include("Story.urls")),
     path("api/chat/", include("Chat.urls")),
+    path("api/notification/", include("Notification.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
