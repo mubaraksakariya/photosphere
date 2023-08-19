@@ -62,7 +62,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
         else:
             await sync_to_async(Notification.objects.create)(
                 user=receiver,
-                type="message",
+                notification_type="message",
                 text=f"{sender.id} {receiver.id}",
             )
 
