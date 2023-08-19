@@ -6,17 +6,22 @@ from django.core import serializers
 
 class Notification(models.Model):
     user = models.ForeignKey("User.CustomUser", on_delete=models.CASCADE)
-    type = models.CharField(max_length=50)
+    notification_type = models.CharField(
+        max_length=50
+    )  # Changed field name to "notification_type"
     text = models.CharField(max_length=50)
     created_at = models.DateField(auto_now=False, auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
 
-def serialize_notifiaction(notifiactio):
-    notifiactio_json = serializers.serialize("json", [notifiactio])
-    return notifiactio_json
+# Updated function names and corrected the argument names
+def serialize_notification(notification):
+    notification_json = serializers.serialize("json", [notification])
+    return notification_json
 
 
-def serialize_notifiactions(users_queryset):
-    serialized_users = [serialize_notifiaction for user in users_queryset]
-    return serialized_users
+def serialize_notifications(notifications_queryset):
+    serialized_notifications = [
+        serialize_notification(notification) for notification in notifications_queryset
+    ]
+    return serialized_notifications
