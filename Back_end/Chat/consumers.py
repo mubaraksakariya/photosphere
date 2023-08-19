@@ -59,11 +59,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
                     }
                 )
             )
-        else:
+        elif message != "_USER_IS_TYPING_":
             await sync_to_async(Notification.objects.create)(
                 user=receiver,
                 notification_type="message",
-                text=f"{sender.id} {receiver.id}",
+                text=f"{sender.id}",
             )
 
     async def get_user_from_token(self, token):
