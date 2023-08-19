@@ -1,0 +1,12 @@
+.header{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header img{
+    padding: 10px 0 0 0;
+    position: absolute;
+    max-width: 35px;
+    left: 0px;
+}

@@ -41,7 +41,7 @@ function NavBar() {
                     <i className="bi bi-plus-circle-fill nav-icon mx-2 "></i>
                     <span className='h5 ps-2 small-screen-item-hide'>Create</span>
                 </div>
-                <div className='py-2'>
+                <div className='py-2' style={{ cursor: 'pointer' }} onClick={() => navigate('/notifications')}>
                     <i className="bi bi-bell-fill nav-icon mx-2"></i>
                     <span className='h5 ps-2 small-screen-item-hide'>Notification</span>
                 </div>

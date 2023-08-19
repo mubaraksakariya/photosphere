@@ -5,6 +5,7 @@ from datetime import datetime
 from User.models import CustomUser
 from User.simple_token import decode_jwt_token
 from Chat.models import Message
+from Notification.models import Notification
 
 connected_users = {}  # Maintain a dictionary to map WebSocket connections to users.
 
@@ -57,6 +58,12 @@ class MessageConsumer(AsyncWebsocketConsumer):
                         "timestamp": datetime.now().isoformat(),
                     }
                 )
+            )
+        else:
+            await sync_to_async(Notification.objects.create)(
+                user=receiver,
+                type="message",
+                text=f"{sender.id} {receiver.id}",
             )
 
     async def get_user_from_token(self, token):
