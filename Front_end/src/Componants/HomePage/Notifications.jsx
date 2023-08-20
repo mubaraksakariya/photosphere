@@ -7,7 +7,7 @@ function Notifications() {
     const { isNotification, setIsNotification } = useContext(HomeContext)
     useEffect(() => {
         axiosInstance.get('notification/getnotifications').then((response) => {
-            console.log(response.data);
+            console.log(response.data.notifications);
         })
     }, [])
     return (
