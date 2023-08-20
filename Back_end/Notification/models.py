@@ -1,5 +1,6 @@
 from django.db import models
 from django.core import serializers
+from django.forms import model_to_dict
 
 # Create your models here.
 
@@ -16,8 +17,8 @@ class Notification(models.Model):
 
 # Updated function names and corrected the argument names
 def serialize_notification(notification):
-    notification_json = serializers.serialize("json", [notification])
-    return notification_json
+    notification_dict = model_to_dict(notification)
+    return notification_dict
 
 
 def serialize_notifications(notifications_queryset):
