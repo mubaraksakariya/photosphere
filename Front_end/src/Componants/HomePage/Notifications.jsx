@@ -1,13 +1,16 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Notifications.css'
 import { axiosInstance } from '../../Contexts/AxioContext'
 import { HomeContext } from '../../Contexts/HomeContext'
 
 function Notifications() {
     const { isNotification, setIsNotification } = useContext(HomeContext)
+    const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         axiosInstance.get('notification/getnotifications').then((response) => {
-            console.log(response.data.notifications);
+            let notifications = response.data.notifications
+            console.log(notifications);
+            setIsNotification(notifications)
         })
     }, [])
     return (
@@ -20,6 +23,15 @@ function Notifications() {
                     <i class="bi bi-x-square-fill notification-close-button"
                         onClick={() => setIsNotification(false)}
                     ></i>
+                </div>
+                <div className="notifiaction-body">
+                    {notifications.map(notification => {
+                        return (
+                            <>
+                                notifiaction
+                            </>
+                        )
+                    })}
                 </div>
             </div>
             <div className="col-md"></div>
