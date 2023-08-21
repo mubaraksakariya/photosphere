@@ -1,0 +1,19 @@
+.user-img-div{
+    border-radius: 50%;
+    max-width: 35px;
+    overflow: hidden;
+}
+.user-img{
+    max-width: 45px;
+}
+.notification{
+    width: max-content;
+    border-radius: 10px;
+    display: flex;
+    gap: 5px;
+    border: thick black;
+    cursor: pointer;
+}
+.shadow{
+    box-shadow: 0 4px 4px rgba(135, 133, 77, 0.219);
+}

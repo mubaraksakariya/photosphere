@@ -11,7 +11,7 @@ import Stories from '../../Componants/Story/Stories'
 import CreateStory from '../../Componants/Story/CreateStory'
 import { HomeContext } from '../../Contexts/HomeContext';
 import PostView from '../../Componants/Post/PostView'
-import Notifications from '../../Componants/HomePage/Notifications'
+import Notifications from '../../Componants/Notification/Notifications'
 
 function Home() {
     const isUser = useSelector(state => state.isUser)

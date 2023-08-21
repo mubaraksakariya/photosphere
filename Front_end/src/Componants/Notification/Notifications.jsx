@@ -2,15 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import './Notifications.css'
 import { axiosInstance } from '../../Contexts/AxioContext'
 import { HomeContext } from '../../Contexts/HomeContext'
+import NotificationComponant from './NotificationComponant'
 
 function Notifications() {
-    const { isNotification, setIsNotification } = useContext(HomeContext)
+    const { setIsNotification } = useContext(HomeContext)
     const [notifications, setNotifications] = useState([]);
     useEffect(() => {
         axiosInstance.get('notification/getnotifications').then((response) => {
             let notifications = response.data.notifications
-            console.log(notifications);
-            setIsNotification(notifications)
+            setNotifications(notifications)
         })
     }, [])
     return (
@@ -20,18 +20,18 @@ function Notifications() {
                 <div className='header'>
                     <img src="./just logo.png" alt="" className='heading-logo' />
                     <h5 className='h5 pt-2'>Notifications</h5>
-                    <i class="bi bi-x-square-fill notification-close-button"
+                    <i className="bi bi-x-square-fill notification-close-button"
                         onClick={() => setIsNotification(false)}
                     ></i>
                 </div>
                 <div className="notifiaction-body">
-                    {notifications.map(notification => {
-                        return (
-                            <>
-                                notifiaction
-                            </>
-                        )
-                    })}
+                    {
+                        notifications && notifications.map((notification) => {
+                            return (
+                                <NotificationComponant notification={notification} key={notification.id} />
+                            )
+                        })
+                    }
                 </div>
             </div>
             <div className="col-md"></div>

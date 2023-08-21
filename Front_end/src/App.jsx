@@ -14,7 +14,7 @@ import { HomeProvider } from './Contexts/HomeContext';
 import UserProfile from './Pages/UserSide/UserProfile';
 import ChatFullpage from './Pages/UserSide/ChatFullpage';
 import PostList from './Pages/AdminSide/PostList';
-import Notifications from './Componants/HomePage/Notifications';
+import Notifications from './Componants/Notification/Notifications';
 
 
 function App() {

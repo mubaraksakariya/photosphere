@@ -3,6 +3,7 @@
     min-height:100dvh;
 }
 .header{
+    padding-bottom: 10px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -18,4 +19,9 @@
     padding: 0 5px 0 0;
     position: absolute;
     right: 0px;
+}
+.notifiaction-body{
+    color: black;
+    padding-top: 0px;
+    padding-left: 10px;
 }
