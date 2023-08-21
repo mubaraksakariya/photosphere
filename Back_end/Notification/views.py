@@ -12,3 +12,11 @@ def getnotifications(request):
         "notifications": notifications,
     }
     return JsonResponse(response_data)
+
+
+def notificationviewed(request):
+    id = request.GET.get("notification_id")
+    notification = Notification.objects.get(id=id)
+    notification.is_read = True
+    notification.save()
+    return JsonResponse({"response": True})
