@@ -15,7 +15,7 @@ function NotificationComponant({ notification }) {
         })
     }, [notification])
     useEffect(() => {
-        axiosInstance.get('notificationviewed', { params: { notification_id: notification.id } })
+        axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } })
     }, [])
     return (
         <>
