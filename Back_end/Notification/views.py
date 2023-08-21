@@ -5,7 +5,7 @@ from .models import Notification, serialize_notification, serialize_notification
 
 
 def getnotifications(request):
-    notifications = Notification.objects.filter(user=request.user)
+    notifications = Notification.objects.all()
     notifications = serialize_notifications(notifications)
     response_data = {
         "result": True,

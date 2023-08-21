@@ -9,6 +9,7 @@ function NotificationComponant({ notification }) {
     const mediaurl = useSelector(state => state.mediaurl)
     const navigate = useNavigate()
     useEffect(() => {
+        console.log(notification);
         axiosInstance.get('getuser', { params: { user: notification.text } }).then(response => {
             let user = response.data.user
             setUser(user)
