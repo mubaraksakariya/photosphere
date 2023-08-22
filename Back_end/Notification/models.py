@@ -14,6 +14,9 @@ class Notification(models.Model):
     created_at = models.DateField(auto_now=False, auto_now_add=True)
     is_read = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ["-created_at"]
+
 
 # Updated function names and corrected the argument names
 def serialize_notification(notification):
