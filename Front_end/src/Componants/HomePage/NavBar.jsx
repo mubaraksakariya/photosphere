@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './Navbar.css'
 import { auth } from '../../Store/AuthRedux'
 import { useDispatch } from 'react-redux'
@@ -10,14 +10,23 @@ function NavBar() {
     const { createpost, setCreatePost, setIsNotification } = useContext(HomeContext)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [notifiactionCount, setNotificationCount] = useState()
+    const iconRef = useRef()
     useEffect(() => {
         axiosInstance.get('notification/get-unread-notifications').then(response => {
             if (response.data.result) {
                 let unreadCount = response.data.count
-                console.log(unreadCount);
+                console.log("count is " + unreadCount);
+                setNotificationCount(unreadCount)
             }
         })
     }, [])
+    useEffect(() => {
+        if (notifiactionCount > 0)
+            iconRef.current.style.color = 'red'
+        else
+            iconRef.current.style.color = 'black'
+    }, [notifiactionCount])
     return (
         <div className='container left-side-nav'>
             <div className='logo small-screen-item-hide'>
@@ -51,7 +60,7 @@ function NavBar() {
                     <span className='h5 ps-2 small-screen-item-hide'>Create</span>
                 </div>
                 <div className='py-2' style={{ cursor: 'pointer' }} onClick={() => setIsNotification(true)}>
-                    <i className="bi bi-bell-fill nav-icon mx-2"></i>
+                    <i className="bi bi-bell-fill nav-icon mx-2" ref={iconRef}></i>
                     <span className='h5 ps-2 small-screen-item-hide'>Notification</span>
                 </div>
                 <div className='py-2' style={{ cursor: 'pointer' }} onClick={() => navigate('/profile')}>
