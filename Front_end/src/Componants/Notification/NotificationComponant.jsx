@@ -11,7 +11,7 @@ function NotificationComponant({ notification }) {
     const [user, setUser] = useState([])
     const mediaurl = useSelector(state => state.mediaurl)
     const navigate = useNavigate()
-    const [isLoading, setIsLoading] = useState(true)
+
 
     useEffect(() => {
         console.log(notification);
@@ -22,7 +22,6 @@ function NotificationComponant({ notification }) {
     }, [notification])
     useEffect(() => {
         axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } })
-        setIsLoading(false)
     }, [notification])
     return (
         <>
@@ -38,7 +37,7 @@ function NotificationComponant({ notification }) {
                 </div> :
                 <div className='d-flex justify-content-center'>
                     {
-                        <LineWave />
+                        <LineWave height={50} width={150} />
                     }
                 </div>
             }

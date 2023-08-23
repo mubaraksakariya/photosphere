@@ -3,6 +3,7 @@ import './Notifications.css'
 import { axiosInstance } from '../../Contexts/AxioContext'
 import { HomeContext } from '../../Contexts/HomeContext'
 import NotificationComponant from './NotificationComponant'
+import { LineWave } from 'react-loader-spinner'
 
 
 function Notifications() {
@@ -31,11 +32,16 @@ function Notifications() {
                 </div>
                 <div className="notifiaction-body">
                     {
-                        notifications && notifications.map((notification) => {
+                        notifications ? notifications.map((notification) => {
                             return (
                                 <NotificationComponant notification={notification} key={notification.id} />
                             )
-                        })
+                        }) :
+                            <div className='d-flex justify-content-center'>
+                                {
+                                    <LineWave />
+                                }
+                            </div>
                     }
                 </div>
             </div>
