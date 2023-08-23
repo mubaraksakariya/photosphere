@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import './StoryTHumbnail.css'
 import AxiosContext from '../../Contexts/AxioContext'
 import { useSelector } from 'react-redux'
@@ -6,7 +6,7 @@ import { HomeContext } from '../../Contexts/HomeContext'
 
 function StoryTHumbnail({ index, user }) {
     const signalRef = useRef()
-    const { setStoryView, storyview, storyUserList } = useContext(HomeContext)
+    const { setStoryView, storyview } = useContext(HomeContext)
     const axiosInstance = useContext(AxiosContext)
     const [storyOwner, setStoryOwner] = useState(null)
     const [stories, setStories] = useState([])
@@ -22,7 +22,7 @@ function StoryTHumbnail({ index, user }) {
 
     }, [])
 
-    useEffect(() => {
+    useMemo(() => {
         axiosInstance.get('story/getstories', { params: { user_id: user } }).then(response => {
             if (response.data.result) {
                 setStories(response.data.stories)
@@ -37,8 +37,6 @@ function StoryTHumbnail({ index, user }) {
                 signalRef.current.style.backgroundColor = 'turquoise'
             }
         }
-
-
     }, [storyview, storyOwner])
 
     const manageStoryClick = () => {

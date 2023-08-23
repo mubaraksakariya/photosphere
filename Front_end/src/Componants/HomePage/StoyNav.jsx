@@ -7,14 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 function StoyNav() {
     const axiosInstance = useContext(AxiosContext)
-    const { isStory, setIsStory, storyUserList, setStoryUerList } = useContext(HomeContext)
-
+    const { isStory, setIsStory, } = useContext(HomeContext)
+    const [storyUserList, setStoryUerList] = useState(null)
     useEffect(() => {
         axiosInstance.get('story/getstories').then(response => {
             if (response.data.result) {
                 let userIds = response.data.users;
-                // setStories(allStories);
-                // let userIds = [...new Set(allStories.map(story => story.user_id))]
                 setStoryUerList(userIds)
             }
         })
@@ -31,7 +29,7 @@ function StoyNav() {
                 <span className='p-0 m-0'>Add a story</span>
             </div>
             {
-                storyUserList.map((user, index) => {
+                storyUserList && storyUserList.map((user, index) => {
                     return (
                         <StoryTHumbnail key={uuidv4()} user={user} index={index} />
                     )

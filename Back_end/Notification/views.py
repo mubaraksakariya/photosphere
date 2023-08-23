@@ -24,3 +24,9 @@ def notificationviewed(request):
     notification.is_read = True
     notification.save()
     return JsonResponse({"response": True})
+
+
+def getunreadnotifications(request):
+    count = Notification.objects.filter(user=request.user, is_read=False).count()
+    response = {"result": True, "count": count}
+    return JsonResponse(response)

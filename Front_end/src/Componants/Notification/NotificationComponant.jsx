@@ -3,11 +3,16 @@ import './NotificationComponant.css'
 import AxiosContext from '../../Contexts/AxioContext'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import Spinner from '../Others/Spinner'
+import { LineWave } from 'react-loader-spinner'
+
 function NotificationComponant({ notification }) {
     const axiosInstance = useContext(AxiosContext)
     const [user, setUser] = useState([])
     const mediaurl = useSelector(state => state.mediaurl)
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
+
     useEffect(() => {
         console.log(notification);
         axiosInstance.get('getuser', { params: { user: notification.text } }).then(response => {
@@ -17,10 +22,12 @@ function NotificationComponant({ notification }) {
     }, [notification])
     useEffect(() => {
         axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } })
-    }, [])
+        setIsLoading(false)
+    }, [notification])
     return (
         <>
-            {(notification.notification_type === "message") && user.username &&
+
+            {(notification.notification_type === "message") && user.username ?
                 <div className={`notification ${notification.is_read ? '' : 'shadow'}`}
                     onClick={() => navigate('/chat')}
                 >
@@ -28,6 +35,11 @@ function NotificationComponant({ notification }) {
                         <img src={mediaurl + user.profile_img} alt="" className='user-img' />
                     </div>
                     <p>{user.username} have send you a message</p>
+                </div> :
+                <div className='d-flex justify-content-center'>
+                    {
+                        <LineWave />
+                    }
                 </div>
             }
 

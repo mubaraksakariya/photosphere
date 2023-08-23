@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom'
 
 function StoryView() {
-    const { storyview, setStoryView, storyUserList } = useContext(HomeContext)
+    const { storyview, setStoryView } = useContext(HomeContext)
     const axiosInstance = useContext(AxiosContext)
     const userStories = storyview.stories
 

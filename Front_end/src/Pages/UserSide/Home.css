@@ -9,7 +9,9 @@
     z-index: 999;
     color: rgb(130, 130, 130);
 }
-
+.show{
+    display: block;
+}
 /* Add styles for .navbar-bottom and .hide-right-nav */
 @media (max-width: 767px) {
     .navbar-bottom {

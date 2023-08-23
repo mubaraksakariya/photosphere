@@ -1,14 +1,23 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './Navbar.css'
 import { auth } from '../../Store/AuthRedux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { HomeContext } from '../../Contexts/HomeContext'
+import { axiosInstance } from '../../Contexts/AxioContext'
 
 function NavBar() {
     const { createpost, setCreatePost, setIsNotification } = useContext(HomeContext)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    useEffect(() => {
+        axiosInstance.get('notification/get-unread-notifications').then(response => {
+            if (response.data.result) {
+                let unreadCount = response.data.count
+                console.log(unreadCount);
+            }
+        })
+    }, [])
     return (
         <div className='container left-side-nav'>
             <div className='logo small-screen-item-hide'>

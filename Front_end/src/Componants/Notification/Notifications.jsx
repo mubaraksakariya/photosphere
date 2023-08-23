@@ -4,15 +4,20 @@ import { axiosInstance } from '../../Contexts/AxioContext'
 import { HomeContext } from '../../Contexts/HomeContext'
 import NotificationComponant from './NotificationComponant'
 
+
 function Notifications() {
     const { setIsNotification } = useContext(HomeContext)
     const [notifications, setNotifications] = useState([]);
+
     useEffect(() => {
         axiosInstance.get('notification/getnotifications').then((response) => {
             let notifications = response.data.notifications
             setNotifications(notifications)
         })
     }, [])
+    useEffect(() => {
+        console.log(notifications);
+    }, [notifications])
     return (
         <div className="row justify-content-center align-items-center g-2">
             <div className="col-md"></div>
