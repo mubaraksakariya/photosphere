@@ -16,7 +16,7 @@ function RightNav() {
         setFirst_name(profile.first_name)
         setUsername(profile.username)
         setProfilePic(mediaurl + profile?.profile_img)
-    }, [])
+    }, [profile])
     return (
         <div className="container-fluid position-fixed right-side-nav">
             <div className="pb-5 pt-3">
