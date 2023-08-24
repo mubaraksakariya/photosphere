@@ -60,11 +60,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 )
             )
         elif message != "_USER_IS_TYPING_":
-            await sync_to_async(Notification.objects.create)(
-                user=receiver,
-                notification_type="message",
-                text=f"{sender.id}",
-            )
+            await self.create_message_notification(receiver, sender)
 
     async def get_user_from_token(self, token):
         try:
@@ -83,3 +79,22 @@ class MessageConsumer(AsyncWebsocketConsumer):
             await sync_to_async(user.save)()
         except:
             print("user dose not exists or some other error")
+
+    async def create_message_notification(self, receiver, sender):
+        notification_filter = {
+            "user": receiver,
+            "notification_type": "message",
+            "text": f"{sender.id}",
+        }
+        existing_notifications = await Notification.objects.filter(
+            **notification_filter
+        )
+
+        if existing_notifications.exists():
+            await existing_notifications.update(is_read=False)
+        else:
+            await sync_to_async(Notification.objects.create)(
+                user=receiver,
+                notification_type="message",
+                text=f"{sender.id}",
+            )
