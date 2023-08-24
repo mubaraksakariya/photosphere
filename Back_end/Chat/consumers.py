@@ -86,13 +86,14 @@ class MessageConsumer(AsyncWebsocketConsumer):
             "notification_type": "message",
             "text": f"{sender.id}",
         }
-        existing_notifications = await Notification.objects.filter(
+        existing_notification = await Notification.objects.filter(
             **notification_filter
-        )
+        ).first()
 
-        if existing_notifications.exists():
+        if existing_notification:
             print("notification exists")
-            await existing_notifications.update(is_read=False)
+            existing_notification.is_read = False
+            await sync_to_async(existing_notification.save)()
         else:
             print("notifications not existing")
             await sync_to_async(Notification.objects.create)(
