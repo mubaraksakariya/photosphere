@@ -14,7 +14,6 @@ function NotificationComponant({ notification }) {
 
 
     useEffect(() => {
-        console.log(notification);
         axiosInstance.get('getuser', { params: { user: notification.context } }).then(response => {
             let user = response.data.user
             setUser(user)
