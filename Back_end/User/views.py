@@ -8,8 +8,8 @@ from django.core.files.storage import default_storage
 from django.utils.crypto import get_random_string
 import re
 from .models import authenticate, CustomUser, serialize_user, Follow
+from Notification.models import Notification
 from .simple_token import generate_jwt_token
-import os
 from django.core.mail import send_mail
 
 from functools import wraps
@@ -220,6 +220,18 @@ def follow(request):
     user_to_follow = CustomUser.objects.get(id=user)
     if not Follow.objects.filter(user=request.user, following=user_to_follow).exists():
         follow = Follow.objects.create(user=request.user, following=user_to_follow)
+        if user_to_follow.is_private:
+            Notification.objects.create(
+                user=user_to_follow,
+                notification_type="follow_request",
+                context=f"{request.user.id}",
+            )
+        else:
+            Notification.objects.create(
+                user=user_to_follow,
+                notification_type="following",
+                context=f"{request.user.id}",
+            )
     else:
         Follow.objects.get(user=request.user, following=user_to_follow).delete()
     return JsonResponse(

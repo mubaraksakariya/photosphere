@@ -8,7 +8,7 @@ from django.forms import model_to_dict
 class Notification(models.Model):
     user = models.ForeignKey("User.CustomUser", on_delete=models.CASCADE)
     notification_type = models.CharField(max_length=50)
-    text = models.CharField(max_length=50)
+    context = models.CharField(max_length=50)
     created_at = models.DateField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
     is_read = models.BooleanField(default=False)

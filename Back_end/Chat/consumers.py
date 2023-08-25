@@ -99,5 +99,5 @@ class MessageConsumer(AsyncWebsocketConsumer):
             await sync_to_async(Notification.objects.create)(
                 user=receiver,
                 notification_type="message",
-                text=f"{sender.id}",
+                context=f"{sender.id}",
             )

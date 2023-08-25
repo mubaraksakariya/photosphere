@@ -11,6 +11,7 @@
 }
 .notification{
     padding: 5px;
+    padding-bottom: 10px;
     width: max-content;
     border-radius: 10px;
     display: flex;
