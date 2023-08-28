@@ -237,3 +237,22 @@ def follow(request):
     return JsonResponse(
         {"result": True, "user": serialize_user(user_to_follow, request.user)}
     )
+
+
+@login_required
+@csrf_exempt
+def profileSettings(request):
+    if request.method == "PUT":
+        try:
+            data = json.loads(request.body.decode("utf-8"))
+            profile = data.get("profile")
+            user = CustomUser.objects.get(id=profile["id"])
+            user.is_private = bool(profile["is_private"])
+            user.save()
+            print(user.is_private)
+            return JsonResponse({"result": True})
+        except Exception as e:
+            print(str(e))
+            return JsonResponse({"result": False})
+    else:
+        return JsonResponse({"result": False})

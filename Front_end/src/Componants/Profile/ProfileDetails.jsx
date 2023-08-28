@@ -1,20 +1,14 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { } from 'react'
 import './ProfileDetails.css'
-import { axiosInstance } from '../../Contexts/AxioContext'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function ProfileDetails() {
 
-    const [followiigCount, setFollowingCount] = useState(0)
     const navigate = useNavigate()
     const profile = useSelector(state => state.profile)
-    const [profilepic, setProfilePic] = useState(null)
     const mediaurl = useSelector((state) => state.mediaurl)
 
-    useEffect(() => {
-        console.log(profile);
-    }, [profile])
     return (
         <div className="d-flex justify-content-around pt-3 pb-3">
             <div className='me-5 profile-img-div'
@@ -36,8 +30,10 @@ function ProfileDetails() {
                             onClick={() => navigate('/editprofile')}
                         >Edit Profile</button>
                     </div>
-                    <div className='d-flex flex-column justify-content-center'>
-                        <i className="bi bi-gear"></i>
+                    <div className='d-flex flex-column justify-content-center' >
+                        <i className="bi bi-gear" style={{ cursor: 'pointer' }}
+                            onClick={() => { navigate('/profilesettings', { state: { profile: profile } }) }}
+                        ></i>
                     </div>
                 </div>
                 <div className='pt-3'>

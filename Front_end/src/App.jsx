@@ -14,7 +14,7 @@ import { HomeProvider } from './Contexts/HomeContext';
 import UserProfile from './Pages/UserSide/UserProfile';
 import ChatFullpage from './Pages/UserSide/ChatFullpage';
 import PostList from './Pages/AdminSide/PostList';
-import Notifications from './Componants/Notification/Notifications';
+import ProfileSettings from './Pages/UserSide/ProfileSettings';
 
 
 function App() {
@@ -43,6 +43,7 @@ function User() {
         <Route path='profile' element={<Profile />} />
         <Route path='verify' element={<VerifyEmail />} />
         <Route path='editprofile' element={<EditProfile />} />
+        <Route path='profilesettings' element={<ProfileSettings />} />
         <Route path='userprofile' element={<UserProfile />} />
         <Route path='chat' element={<ChatFullpage />} />
       </Routes>

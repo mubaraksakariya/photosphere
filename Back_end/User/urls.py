@@ -12,4 +12,5 @@ urlpatterns = [
     path("getuser", views.getuser, name="getuser"),
     path("updateProfile", views.updateProfile, name="updateProfile"),
     path("follow", views.follow, name="follow"),
+    path("profileSettings", views.profileSettings, name="profileSettings"),
 ]

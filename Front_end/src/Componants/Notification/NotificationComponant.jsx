@@ -46,6 +46,18 @@ function NotificationComponant({ notification }) {
                     <p>{user.username} is following you now </p>
                 </div>
             }
+            {user.username && notification && (notification.notification_type === "follow_request") &&
+                <div className={`notification ${notification.is_read ? '' : 'shadow'}`}
+                    onClick={() => navigate('userprofile', { state: { user: user.id } })}
+                >
+                    <div className='user-img-div'>
+                        <img src={mediaurl + user.profile_img} alt="" className='user-img' />
+                    </div>
+                    <p>{user.username} have requseted to follow you  </p>
+                    <button className='btn btn-success'>Accept</button>
+                </div>
+            }
+
             {
                 !user.username &&
                 <div className='d-flex justify-content-center'>
