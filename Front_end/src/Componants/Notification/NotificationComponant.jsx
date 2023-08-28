@@ -25,7 +25,7 @@ function NotificationComponant({ notification }) {
     return (
         <>
 
-            {(notification.notification_type === "message") && user.username ?
+            {user.username && notification && (notification.notification_type === "message") &&
                 <div className={`notification ${notification.is_read ? '' : 'shadow'}`}
                     onClick={() => navigate('/chat')}
                 >
@@ -33,19 +33,25 @@ function NotificationComponant({ notification }) {
                         <img src={mediaurl + user.profile_img} alt="" className='user-img' />
                     </div>
                     <p>{user.username} have send you a message</p>
-                </div> :
-                <div className='d-flex justify-content-center'>
-                    {
-                        <LineWave height={50} width={150} />
-                    }
                 </div>
             }
 
-            {(notification.notification_type === "follow_request") &&
-                <div className='notification'
-                // onClick={() => navigate('/chat')}
+            {user.username && notification && (notification.notification_type === "following") &&
+                <div className={`notification ${notification.is_read ? '' : 'shadow'}`}
+                    onClick={() => navigate('userprofile', { state: { user: user.id } })}
                 >
-                    <p>you have one or more friend request</p>
+                    <div className='user-img-div'>
+                        <img src={mediaurl + user.profile_img} alt="" className='user-img' />
+                    </div>
+                    <p>{user.username} is following you now </p>
+                </div>
+            }
+            {
+                !user.username &&
+                <div className='d-flex justify-content-center'>
+                    {
+                        <LineWave height={40} />
+                    }
                 </div>
             }
         </>
