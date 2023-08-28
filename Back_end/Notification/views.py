@@ -7,8 +7,10 @@ from User.views import login_required
 
 @login_required
 def getnotifications(request):
+    print("notifications called")
     print(request.user)
     notifications = Notification.objects.filter(user=request.user)
+    print(notifications.count())
     notifications = serialize_notifications(notifications)
     response_data = {
         "result": True,

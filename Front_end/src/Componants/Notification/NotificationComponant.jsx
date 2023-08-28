@@ -41,9 +41,9 @@ function NotificationComponant({ notification }) {
                 </div>
             }
 
-            {(notification.notification_type === "freind-request") &&
+            {(notification.notification_type === "follow_request") &&
                 <div className='notification'
-                    onClick={() => navigate('/chat')}
+                // onClick={() => navigate('/chat')}
                 >
                     <p>you have one or more friend request</p>
                 </div>
