@@ -36,7 +36,6 @@ class MessageConsumer(AsyncWebsocketConsumer):
         receiver = data.get("receiver")
         receiver = await sync_to_async(CustomUser.objects.get)(id=receiver)
         message_content = data.get("text")
-        print(message_content)
         if token:
             sender = await self.get_user_from_token(token)
             if sender and receiver and message_content != "_USER_IS_TYPING_":
@@ -47,6 +46,7 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     async def send_message_to_user(self, receiver, message, sender, type="chat"):
         recipient_connection = connected_users.get(receiver.id)
+        print("triying to send message")
         if recipient_connection:
             await recipient_connection.send(
                 text_data=json.dumps(
@@ -71,8 +71,6 @@ class MessageConsumer(AsyncWebsocketConsumer):
             return None
 
     async def mark_user_online(self, user_id, value):
-        print(user_id)
-        print(value)
         try:
             user = await sync_to_async(CustomUser.objects.get)(id=user_id)
             user.is_online = value
@@ -81,21 +79,26 @@ class MessageConsumer(AsyncWebsocketConsumer):
             print("user dose not exists or some other error")
 
     async def create_message_notification(self, receiver, sender):
+        print("trying to create a notification")
         notification_filter = {
             "user": receiver,
             "notification_type": "message",
-            "text": f"{sender.id}",
+            "context": f"{sender.id}",
         }
-        existing_notification = await Notification.objects.filter(
+
+        existing_notifications = await sync_to_async(Notification.objects.filter)(
             **notification_filter
-        ).first()
+        )
+        existing_notification = None
+        async for existing_notification in existing_notifications:
+            break
 
         if existing_notification:
             print("notification exists")
             existing_notification.is_read = False
             await sync_to_async(existing_notification.save)()
         else:
-            print("notifications not existing")
+            print("notification not existing")
             await sync_to_async(Notification.objects.create)(
                 user=receiver,
                 notification_type="message",
