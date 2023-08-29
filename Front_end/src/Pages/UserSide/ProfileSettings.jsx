@@ -43,7 +43,7 @@ function ProfileSettings() {
                                 onSubmit={manageSubmit}
                             >
                                 <div className='d-flex justify-content-between'>
-                                    <h6>Private ?</h6>
+                                    <h6>Make Profile Private ?</h6>
                                     <div className="form-check form-switch">
                                         {profile && <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"
                                             checked={profile.is_private}
@@ -52,8 +52,10 @@ function ProfileSettings() {
                                     </div>
                                 </div>
                                 <div className='p-3 '>
-                                    <button type="button" className='btn btn-success me-2'>Cancel</button>
-                                    <button type="submit" className='btn btn-danger'>Done</button>
+                                    <button type="button" className='btn btn-success me-2'
+                                        onClick={() => navigate('/profile/')}
+                                    >Cancel</button>
+                                    <button type="submit" className='btn btn-danger '>Apply</button>
                                 </div>
                             </form>
                         </div>

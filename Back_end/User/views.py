@@ -1,4 +1,5 @@
 import json
+from functools import wraps
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -9,10 +10,10 @@ from django.utils.crypto import get_random_string
 import re
 from .models import authenticate, CustomUser, serialize_user, Follow
 from Notification.models import Notification
+from Notification.views import accept_follower_notification, follower_notification
 from .simple_token import generate_jwt_token
 from django.core.mail import send_mail
 
-from functools import wraps
 
 import random
 
@@ -216,27 +217,34 @@ def updateProfile(request):
 @login_required
 @csrf_exempt
 def follow(request):
-    user = int(request.GET.get("user"))
-    user_to_follow = CustomUser.objects.get(id=user)
-    if not Follow.objects.filter(user=request.user, following=user_to_follow).exists():
-        follow = Follow.objects.create(user=request.user, following=user_to_follow)
-        if user_to_follow.is_private:
-            Notification.objects.create(
-                user=user_to_follow,
-                notification_type="follow_request",
-                context=f"{request.user.id}",
-            )
+    if request.method == "PUT":
+        data = json.loads(request.body.decode("utf-8"))
+        user = data.get("user")
+        user_to_follow = CustomUser.objects.get(id=user)
+        if not Follow.objects.filter(
+            user=request.user, following=user_to_follow
+        ).exists():
+            follow = Follow.objects.create(user=request.user, following=user_to_follow)
+            follower_notification(user_to_follow, request.user)
         else:
-            Notification.objects.create(
-                user=user_to_follow,
-                notification_type="following",
-                context=f"{request.user.id}",
-            )
-    else:
-        Follow.objects.get(user=request.user, following=user_to_follow).delete()
-    return JsonResponse(
-        {"result": True, "user": serialize_user(user_to_follow, request.user)}
-    )
+            Follow.objects.get(user=request.user, following=user_to_follow).delete()
+        return JsonResponse(
+            {"result": True, "user": serialize_user(user_to_follow, request.user)}
+        )
+
+    ###### Accepting a follow request / for private accounts ##########
+
+    if request.method == "POST":
+        data = json.loads(request.body.decode("utf-8"))
+        user = data.get("user")
+        user_requested = CustomUser.objects.get(id=user)
+        follow_request = Follow.objects.get(user=user_requested, following=request.user)
+        follow_request.is_accepted = True
+        follow_request.save()
+        accept_follower_notification(user=request.user, follower=user_requested)
+        return JsonResponse(
+            {"result": True, "user": serialize_user(user_requested, request.user)}
+        )
 
 
 @login_required

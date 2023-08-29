@@ -19,9 +19,23 @@ function NotificationComponant({ notification }) {
             setUser(user)
         })
     }, [notification])
+
     useEffect(() => {
         axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } })
     }, [notification])
+
+    const manageAccept = () => {
+        axiosInstance.post('follow', { user: user.id }).then(response => {
+            if (response.data.result) {
+                setUser(oldUser => ({
+                    ...oldUser,
+                    ...response.data.user
+                }));
+            }
+        })
+        notification.notification_type = "following"
+        console.log(notification);
+    }
     return (
         <>
 
@@ -47,14 +61,26 @@ function NotificationComponant({ notification }) {
                 </div>
             }
             {user.username && notification && (notification.notification_type === "follow_request") &&
+                <div className={`notification ${notification.is_read ? '' : 'shadow'}`}>
+                    <div className='user-img-div'>
+                        <img src={mediaurl + user.profile_img} alt="" className='user-img' />
+                    </div>
+                    <p
+                        onClick={() => navigate('userprofile', { state: { user: user.id } })}
+                    >{user.username} have requseted to follow you  </p>
+                    <button className='btn btn-sm btn-success accept-btn'
+                        onClick={manageAccept}
+                    >Accept</button>
+                </div>
+            }
+            {user.username && notification && (notification.notification_type === "accepted") &&
                 <div className={`notification ${notification.is_read ? '' : 'shadow'}`}
                     onClick={() => navigate('userprofile', { state: { user: user.id } })}
                 >
                     <div className='user-img-div'>
                         <img src={mediaurl + user.profile_img} alt="" className='user-img' />
                     </div>
-                    <p>{user.username} have requseted to follow you  </p>
-                    <button className='btn btn-success'>Accept</button>
+                    <p>{user.username} have Accepted your follow request </p>
                 </div>
             }
 

@@ -22,3 +22,6 @@
 .shadow{
     box-shadow: 0 4px 4px rgba(135, 133, 77, 0.219);
 }
+.accept-btn{
+    float: right;
+}

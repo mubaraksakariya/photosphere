@@ -11,7 +11,7 @@ function OtherProfileDetails({ user }) {
     const axiosInstance = useContext(AxiosContext)
 
     const manageFollow = () => {
-        axiosInstance.get('follow', { params: { user: thisUser.id } }).then(response => {
+        axiosInstance.put('follow', { user: thisUser.id }).then(response => {
             if (response.data.result) {
                 setThisuUser(oldUser => ({
                     ...oldUser,
