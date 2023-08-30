@@ -45,7 +45,7 @@ function Post({ post }) {
         })
     }, [])
     const manageLike = () => {
-        axioinstance.get('post/likeapost', { params: { post_id: post.id } }).then((response) => {
+        axioinstance.put('post/likeapost', { post_id: post.id }).then((response) => {
             if (response.data.result) {
                 if (postLike) setTotalLiks((like) => like - 1)
                 else setTotalLiks((like) => like + 1)

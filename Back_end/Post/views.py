@@ -1,9 +1,11 @@
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from Notification.views import postLikeNotification
 from User.views import login_required
-from User.models import CustomUser
-from .models import Post, Media, Like, Comment
+from User.models import CustomUser,serialize_user
+from .models import Post, Media, Like, Comment,serialize_post
 from django.core.paginator import Paginator
 from rest_framework.decorators import api_view
 from django.forms.models import model_to_dict
@@ -36,7 +38,7 @@ def createpost(request):
     post = model_to_dict(Post.objects.get(id=post.id))
     return JsonResponse({"result": True, "post": post})
 
-
+@csrf_exempt
 @login_required
 def profileposts(request):
     user = request.GET.get("user")
@@ -53,7 +55,7 @@ def profileposts(request):
         return JsonResponse({"result": True, "allPosts": list(allPosts)})
     return JsonResponse({"result": False, "allPosts": list(allPosts)})
 
-
+@csrf_exempt
 @login_required
 def getmedia(request):
     post_id = request.GET.get("post_id")
@@ -61,7 +63,7 @@ def getmedia(request):
     media = Media.objects.filter(post=post).values_list("file", flat=True)
     return JsonResponse({"result": True, "media": list(media)})
 
-
+@csrf_exempt
 @login_required
 def getfeed(request):
     allPosts = Post.objects.all().values()
@@ -81,16 +83,28 @@ def getfeed(request):
         return JsonResponse({"result": False, "posts": posts})
     return JsonResponse({"result": True, "posts": list(posts)})
 
-
+@csrf_exempt
 @login_required
 def likeapost(request):
-    post_id = request.GET.get("post_id")
-    post = Post.objects.get(id=post_id)
-    if Like.objects.filter(user=request.user, post=post).exists():
-        like = Like.objects.filter(user=request.user, post=post).delete()
-    else:
-        like = Like.objects.create(user=request.user, post=post)
-    return JsonResponse({"result": True, "post_id": post_id})
+    if request.method == "PUT":
+        data = json.loads(request.body.decode("utf-8"))
+        post_id = data.get("post_id")
+        post = Post.objects.get(id=post_id)
+        if Like.objects.filter(user=request.user, post=post).exists():
+            like = Like.objects.filter(user=request.user, post=post).delete()
+        else:
+            like = Like.objects.create(user=request.user, post=post)
+            postLikeNotification(like)
+        return JsonResponse({"result": True, "post_id": post_id})
+    if request.method == "GET":
+        like_id = request.GET.get('like_id')
+        print(like_id)
+        like = Like.objects.get(id = like_id)
+        user = like.user
+        post = like.post
+        return JsonResponse({"result": True, "post": serialize_post(post),'user' : serialize_user(user)})
+    print(request.method)
+    return JsonResponse({"result": False})
 
 
 # @api_view(["POST"])

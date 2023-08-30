@@ -10,7 +10,11 @@ from django.utils.crypto import get_random_string
 import re
 from .models import authenticate, CustomUser, serialize_user, Follow
 from Notification.models import Notification
-from Notification.views import accept_follower_notification, follower_notification
+from Notification.views import (
+    accept_follower_notification,
+    deleteFollowNotification,
+    follower_notification,
+)
 from .simple_token import generate_jwt_token
 from django.core.mail import send_mail
 
@@ -228,6 +232,9 @@ def follow(request):
             follower_notification(user_to_follow, request.user)
         else:
             Follow.objects.get(user=request.user, following=user_to_follow).delete()
+            deleteFollowNotification(
+                user_to_unfollow=user_to_follow, follower=request.user
+            )
         return JsonResponse(
             {"result": True, "user": serialize_user(user_to_follow, request.user)}
         )

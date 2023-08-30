@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from .models import Notification, serialize_notification, serialize_notifications
+from django.db.models import Q
 
 # from User.views import login_required
 
@@ -81,3 +82,34 @@ def follower_notification(user_to_follow, follower):
             notification_type="following",
             context=f"{follower.id}",
         )
+
+
+def deleteFollowNotification(user_to_unfollow, follower):
+    notif = Notification.objects.filter(
+        Q(user=user_to_unfollow)
+        & (Q(notification_type="following") | Q(notification_type="follow_request"))
+        & Q(context=f"{follower.id}")
+    )
+    for item in notif:
+        item.is_deleted = True
+        item.save()
+
+
+def postLikeNotification(like):
+    notif = Notification.objects.filter(
+        user=like.post.user, notification_type="like", context=f"{like.id}"
+    )
+    for item in notif:
+        item.is_deleted = True
+        item.save()
+    notif = Notification.objects.create(
+        user=like.post.user, notification_type="like", context=f"{like.id}"
+    )
+
+def deletepostLikeNotification(like):
+    notif = Notification.objects.filter(
+        user=like.post.user, notification_type="like", context=f"{like.id}"
+    )
+    for item in notif:
+        item.is_deleted = True
+        item.save()
