@@ -43,8 +43,8 @@ function CreateStory() {
             <div className="col-md-8 story-main-div">
                 <div className="d-flex flex-column justify-content-center rounded"
                     style={{
-                        width: '75vh',
-                        height: '76vh',
+                        width: '75dvh',
+                        height: '76dvh',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -55,7 +55,7 @@ function CreateStory() {
                         onClick={manageInput}
                         style={{
                             width: '100%',
-                            minHeight: '70vh',
+                            minHeight: '70dvh',
                             cursor: 'pointer',
                             overflow: 'hidden',
                             display: 'flex',

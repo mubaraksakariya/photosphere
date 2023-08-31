@@ -1,65 +1,64 @@
 .main-post-div {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .postowner-img-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 3.4rem;
-    max-width: 3.4rem;
-    min-height: 3.4rem;
-    border-radius: 50%;
-    margin: 0px;
-    padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 3.4rem;
+  max-width: 3.4rem;
+  min-height: 3.4rem;
+  border-radius: 50%;
+  margin: 0px;
+  padding: 0px;
 }
 
 .postowner-img {
-    max-width: 3rem;
-    border-radius: 50%;
-    margin: 0px;
-    padding: 0px;
+  max-width: 3rem;
+  border-radius: 50%;
+  margin: 0px;
+  padding: 0px;
 }
 
 .user-div {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 1rem;
 }
 
 .comment-div {
-    min-height: 28rem;
-    max-height: 28rem;
-    overflow: scroll;
-
+  min-height: 28rem;
+  max-height: 28rem;
+  overflow: scroll;
 }
 
 .comment-div::-webkit-scrollbar {
-    width: 0px;
+  width: 0px;
 }
-.close-botton{
-    display: block;
+.close-botton {
+  display: block;
 }
-.close-botton-smallscreen{
-    display: none;
+.close-botton-smallscreen {
+  display: none;
 }
 @media (max-width: 767px) {
-    .main-post-div{
-        flex-direction: column;
-        overflow-y: scroll;
-    }
-    .comment-div{
-        max-height: fit-content;
-        min-height: max-content;
-    }
-    .comment-input{
-        padding-bottom: 10vh;
-    }
-    .close-botton-smallscreen{
-        display: block;
-    }
-    .close-botton{
-        display: none;
-    }
+  .main-post-div {
+    flex-direction: column;
+    overflow-y: scroll;
+  }
+  .comment-div {
+    max-height: fit-content;
+    min-height: max-content;
+  }
+  .comment-input {
+    padding-bottom: 10dvh;
+  }
+  .close-botton-smallscreen {
+    display: block;
+  }
+  .close-botton {
+    display: none;
+  }
 }

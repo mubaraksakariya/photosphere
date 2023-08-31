@@ -8,7 +8,7 @@ function AdminNav() {
     const navigate = useNavigate()
 
     return (
-        <div className='border-end  ' style={{ minHeight: '90vh' }}>
+        <div className='border-end  ' style={{ minHeight: '90dvh' }}>
             <div className='py-2 '>
                 <h3>Photosphere</h3>
             </div>

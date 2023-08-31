@@ -53,7 +53,7 @@ function NotificationComponant({ notification }) {
     const openPost = () => {
         let postowner = null;
         let media = null;
-
+        console.log("total likes " + post.likes_count);
         // Fetch user data
         axiosInstance.get('getuser', { params: { user: post.user_id } }).then((response) => {
             if (response.data.result) {

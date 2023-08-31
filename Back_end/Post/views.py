@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from Notification.views import postLikeNotification
+from Notification.views import deletepostLikeNotification, postLikeNotification
 from User.views import login_required
 from User.models import CustomUser,serialize_user
 from .models import Post, Media, Like, Comment,serialize_post
@@ -91,14 +91,16 @@ def likeapost(request):
         post_id = data.get("post_id")
         post = Post.objects.get(id=post_id)
         if Like.objects.filter(user=request.user, post=post).exists():
-            like = Like.objects.filter(user=request.user, post=post).delete()
+            like = Like.objects.filter(user=request.user, post=post)
+            for item in like:
+                deletepostLikeNotification(item)
+            like.delete()
         else:
             like = Like.objects.create(user=request.user, post=post)
             postLikeNotification(like)
         return JsonResponse({"result": True, "post_id": post_id})
     if request.method == "GET":
         like_id = request.GET.get('like_id')
-        print(like_id)
         like = Like.objects.get(id = like_id)
         user = like.user
         post = like.post

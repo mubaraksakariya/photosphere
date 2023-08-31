@@ -107,6 +107,7 @@ def postLikeNotification(like):
     )
 
 def deletepostLikeNotification(like):
+    print(like.post.user)
     notif = Notification.objects.filter(
         user=like.post.user, notification_type="like", context=f"{like.id}"
     )

@@ -10,8 +10,7 @@ import { useNavigate } from 'react-router-dom';
 function PostView() {
     const mediaUrl = useSelector((state) => state.mediaurl)
     const axioinstance = useContext(AxiosContext)
-    const { setIsPostView, setPosts } = useContext(HomeContext)
-    const { isPostview } = useContext(HomeContext)
+    const { setIsPostView, setPosts, isPostview } = useContext(HomeContext)
     const [currentPost, setCurrentPost] = useState(isPostview.post)
     const [media, setMedia] = useState(isPostview.media)
     const [postowner, setPostOWner] = useState(isPostview.postowner)
@@ -30,7 +29,7 @@ function PostView() {
         })
     }, [])
     const manageLike = () => {
-        axioinstance.get('post/likeapost', { params: { post_id: currentPost.id } }).then((response) => {
+        axioinstance.put('post/likeapost', { post_id: currentPost.id }).then((response) => {
             if (response.data.result) {
                 if (postLike) setTotalLiks((like) => like - 1)
                 else setTotalLiks((like) => like + 1)
@@ -78,7 +77,7 @@ function PostView() {
         <div className="container" >
             <div className="row main-post-div">
                 <div className="col-md-8">
-                    <i class="bi bi-x-square float-end close-botton-smallscreen" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
+                    <i className="bi bi-x-square float-end close-botton-smallscreen" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
                     <div className="card-body p-0">
                         <div id={currentPost.id} className="carousel slide d-flex flex-column justify-content-around" style={{ maxHeight: '500px', height: '500px', overflow: 'hidden' }}>
                             {/* {media.length > 1 && <>
@@ -117,7 +116,7 @@ function PostView() {
                     </div>
                 </div>
                 <div className="col-md-4 post-details-smallscreen">
-                    <i class="bi bi-x-square float-end close-botton" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
+                    <i className="bi bi-x-square float-end close-botton" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
                     <div className='user-div'
                         onClick={redirectToProfile}
                         style={{ cursor: 'pointer' }}
@@ -133,7 +132,7 @@ function PostView() {
                                 <i className={postLike ? "bi bi-heart-fill text-danger px-1" : "bi bi-heart px-1"}
                                     onClick={manageLike}
                                     style={{ cursor: 'pointer' }}
-                                ></i> <span className='pe-1'>{totalLikes}</span>
+                                ></i> <span className='pe-1'>{currentPost.total_likes}</span>
                                 <i className="bi bi-chat p-0 px-1"
                                     style={{ cursor: 'pointer' }}
 

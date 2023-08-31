@@ -1,27 +1,27 @@
-.notification-main-div{
-    background-color: white;
-    min-height:100dvh;
+.notification-main-div {
+  background-color: white;
+  min-height: 100ddvh;
 }
-.header{
-    padding-bottom: 10px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.header {
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.header img{
-    padding: 0 0 0 0;
-    position: absolute;
-    max-width: 35px;
-    left: 0px;
+.header img {
+  padding: 0 0 0 0;
+  position: absolute;
+  max-width: 35px;
+  left: 0px;
 }
-.notification-close-button{
-    padding: 0 5px 0 0;
-    position: absolute;
-    right: 0px;
+.notification-close-button {
+  padding: 0 5px 0 0;
+  position: absolute;
+  right: 0px;
 }
-.notifiaction-body{
-    color: black;
-    padding-top: 0px;
-    padding-left: 10px;
+.notifiaction-body {
+  color: black;
+  padding-top: 0px;
+  padding-left: 10px;
 }

@@ -47,8 +47,8 @@ function CreatePost() {
             <div className="col-md-8 post-main-div">
                 <div className='d-flex flex-column rounded"'
                     style={{
-                        width: '75vh',
-                        height: '75vh',
+                        width: '75dvh',
+                        height: '75dvh',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -75,7 +75,7 @@ function CreatePost() {
                         {isfiles ?
                             <div id="carouselExample" className="carousel d-flex justify-content-center align-items-center"
                                 style={{
-                                    minWidth: '35vh',
+                                    minWidth: '35dvh',
                                     display: 'block',
                                     objectFit: 'contain',
                                     maxWidth: '100%',
@@ -88,7 +88,7 @@ function CreatePost() {
                                     {Array.from(files).map((file, index) => (
                                         <div key={uuidv4()} className={`carousel-item ${index === 0 ? 'active' : ''}`} >
                                             <img src={URL.createObjectURL(file)} className="d-block w-100" alt={`Slide ${index + 1}`}
-                                                style={{ maxHeight: '50vh' }}
+                                                style={{ maxHeight: '50dvh' }}
                                             />
                                         </div>
                                     ))}
