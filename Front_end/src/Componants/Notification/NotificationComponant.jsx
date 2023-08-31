@@ -35,7 +35,11 @@ function NotificationComponant({ notification }) {
     }, [notification])
 
     useEffect(() => {
-        axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } })
+        if (!notification.is_read) {
+            axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } }).then(response => {
+                console.log("Notfication viewd set to " + response.data.notification.is_read);
+            })
+        }
     }, [notification])
 
     const manageAccept = () => {

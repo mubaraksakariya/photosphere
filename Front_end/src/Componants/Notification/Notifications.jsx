@@ -16,9 +16,6 @@ function Notifications() {
             setNotifications(notifications)
         })
     }, [])
-    useEffect(() => {
-        console.log(notifications);
-    }, [notifications])
     return (
         <div className="row justify-content-center align-items-center g-2">
             <div className="col-md"></div>
