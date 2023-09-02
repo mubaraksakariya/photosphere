@@ -1,0 +1,11 @@
+.settings-main-div{
+    height: 85dvh;
+}
+.submit-btn-div{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 0px;
+    right: 40%;
+    left: 40%;
+}

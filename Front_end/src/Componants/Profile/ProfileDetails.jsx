@@ -3,7 +3,7 @@ import './ProfileDetails.css'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-function ProfileDetails() {
+function ProfileDetails({ setOverlay }) {
 
     const navigate = useNavigate()
     const profile = useSelector(state => state.profile)
@@ -39,8 +39,14 @@ function ProfileDetails() {
                 <div className='pt-3'>
                     <ul className="d-flex p-0 m-0">
                         <li className="list-group-item pe-4">Posts {profile.number_of_posts}</li>
-                        <li className="list-group-item pe-4">Followers {profile.followersCount}</li>
-                        <li className="list-group-item">Following {profile.followiigCount}</li>
+                        <li className="list-group-item pe-4"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setOverlay('followers')}
+                        >Followers {profile.followersCount}</li>
+                        <li className="list-group-item"
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setOverlay('following')}
+                        >Following {profile.followiigCount}</li>
 
                     </ul>
                 </div>

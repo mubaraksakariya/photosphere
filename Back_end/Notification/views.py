@@ -107,9 +107,26 @@ def postLikeNotification(like):
     )
 
 def deletepostLikeNotification(like):
-    print(like.post.user)
     notif = Notification.objects.filter(
         user=like.post.user, notification_type="like", context=f"{like.id}"
+    )
+    for item in notif:
+        item.is_deleted = True
+        item.save()
+
+def postCommentNotification(comment):
+    notif = Notification.objects.filter(
+        user=comment.post.user, notification_type="comment", context=f"{comment.id}"
+    )
+    for item in notif:
+        item.is_deleted = True
+        item.save()
+    notif = Notification.objects.create(
+        user=comment.post.user, notification_type="comment", context=f"{comment.id}"
+    )
+def deletePostCommentNotification(comment):
+    notif = Notification.objects.filter(
+        user=comment.post.user, notification_type="comment", context=f"{comment.id}"
     )
     for item in notif:
         item.is_deleted = True

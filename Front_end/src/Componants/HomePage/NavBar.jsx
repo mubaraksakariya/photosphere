@@ -71,13 +71,14 @@ function NavBar() {
                     <i className="bi bi-person-circle nav-icon mx-2"></i>
                     <span className='h5 ps-2 small-screen-item-hide'>Profile</span>
                 </div>
+                <div className='logout-btn-div'>
+                    <button className='btn btn-danger btn-sm small-screen-item-hide'
+                        onClick={() => dispatch(auth.logout())}
+                    >Logout</button>
+                </div>
 
             </div>
-            <div>
-                <button className='btn btn-danger btn-sm small-screen-item-hide'
-                    onClick={() => dispatch(auth.logout())}
-                >Logout</button>
-            </div>
+
         </div>
     )
 }

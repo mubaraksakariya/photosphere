@@ -34,11 +34,11 @@ function ProfileSettings() {
     return (
         <>
             <div className="row justify-content-center align-items-center g-2">
-                <div className="col-md"></div>
+                <div className="col-md-3"></div>
                 <div className="col-md">
                     <div className="text-center mb-3">
                         <h3 className='logo-text'>PHOTOSPHERE</h3>
-                        <div className='mt-5'>
+                        <div className='mt-5 settings-main-div'>
                             <form action=""
                                 onSubmit={manageSubmit}
                             >
@@ -51,7 +51,7 @@ function ProfileSettings() {
                                         />}
                                     </div>
                                 </div>
-                                <div className='p-3 '>
+                                <div className='p-3 submit-btn-div'>
                                     <button type="button" className='btn btn-success me-2'
                                         onClick={() => navigate('/profile/')}
                                     >Cancel</button>
@@ -61,7 +61,7 @@ function ProfileSettings() {
                         </div>
                     </div>
                 </div>
-                <div className="col-md"></div>
+                <div className="col-md-3"></div>
             </div>
         </>
     )

@@ -229,6 +229,9 @@ def follow(request):
             user=request.user, following=user_to_follow
         ).exists():
             follow = Follow.objects.create(user=request.user, following=user_to_follow)
+            if not user_to_follow.is_private:
+                follow.is_accepted = True
+                follow.save()
             follower_notification(user_to_follow, request.user)
         else:
             Follow.objects.get(user=request.user, following=user_to_follow).delete()
@@ -271,3 +274,41 @@ def profileSettings(request):
             return JsonResponse({"result": False})
     else:
         return JsonResponse({"result": False})
+
+
+@login_required
+@csrf_exempt
+def followers(request):
+    if request.method == "GET":
+        user = request.GET.get("user")
+        user = CustomUser.objects.get(id=user)
+        followers = Follow.objects.filter(following=user, is_accepted=True)
+        followers = [
+            serialize_user(follower.user, request.user) for follower in followers
+        ]
+
+        return JsonResponse(
+            {
+                "result": True,
+                "followers": followers,
+            }
+        )
+
+
+@login_required
+@csrf_exempt
+def followings(request):
+    if request.method == "GET":
+        user = request.GET.get("user")
+        user = CustomUser.objects.get(id=user)
+        followings = Follow.objects.filter(user=user, is_accepted=True)
+        followings = [
+            serialize_user(follow.following, request.user) for follow in followings
+        ]
+
+        return JsonResponse(
+            {
+                "result": True,
+                "followers": followings,
+            }
+        )

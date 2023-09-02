@@ -7,11 +7,16 @@
 }
 
 .left-side-nav {
+    min-height: 100dvh;
     max-width: fit-content;
     position: fixed;
 }
 .navbar-items{
     padding-top: 4px;
+}
+.logout-btn-div{
+    position:absolute;
+    bottom: 10px;
 }
 @media (max-width: 767px) {
     .navbar-items{

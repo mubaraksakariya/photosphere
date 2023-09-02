@@ -25,8 +25,14 @@ function NotificationComponant({ notification }) {
             })
         }
         if (notification.notification_type === "like") {
-            console.log(notification.context);
             axiosInstance.get('post/likeapost', { params: { like_id: notification.context } }).then((response) => {
+                setUser(response.data.user)
+                setPost(response.data.post)
+            })
+        }
+        if (notification.notification_type === "comment") {
+            console.log(notification.context);
+            axiosInstance.get('post/commentonpost', { params: { comment_id: notification.context } }).then((response) => {
                 console.log(response.data);
                 setUser(response.data.user)
                 setPost(response.data.post)
@@ -37,7 +43,6 @@ function NotificationComponant({ notification }) {
     useEffect(() => {
         if (!notification.is_read) {
             axiosInstance.get('notification/notificationviewed', { params: { notification_id: notification.id } }).then(response => {
-                console.log("Notfication viewd set to " + response.data.notification.is_read);
             })
         }
     }, [notification])
@@ -134,6 +139,16 @@ function NotificationComponant({ notification }) {
                         <img src={mediaurl + user.profile_img} alt="" className='user-img' />
                     </div>
                     <p>{user.username} liked a post </p>
+                </div>
+            }
+            {user.username && notification && (notification.notification_type === "comment") &&
+                <div className={`notification ${notification.is_read ? '' : 'shadow'}`}
+                    onClick={openPost}
+                >
+                    <div className='user-img-div'>
+                        <img src={mediaurl + user.profile_img} alt="" className='user-img' />
+                    </div>
+                    <p>{user.username} commented on a post </p>
                 </div>
             }
 

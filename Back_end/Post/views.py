@@ -2,7 +2,7 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from Notification.views import deletepostLikeNotification, postLikeNotification
+from Notification.views import deletePostCommentNotification, deletepostLikeNotification, postCommentNotification, postLikeNotification
 from User.views import login_required
 from User.models import CustomUser,serialize_user
 from .models import Post, Media, Like, Comment,serialize_post
@@ -113,12 +113,22 @@ def likeapost(request):
 @csrf_exempt
 @login_required
 def commentonpost(request):
-    post_id = request.POST.get("post_id")
-    comment = request.POST.get("comment")
-    post = Post.objects.get(id=post_id)
-    new_comment = Comment.objects.create(user=request.user, post=post, text=comment)
-    new_comment = Comment.objects.filter(id=new_comment.id).values()
-    return JsonResponse({"result": True, "comment": list(new_comment)})
+    if request.method == 'POST':
+        post_id = request.POST.get("post_id")
+        comment = request.POST.get("comment")
+        post = Post.objects.get(id=post_id)
+        new_comment = Comment.objects.create(user=request.user, post=post, text=comment)
+        postCommentNotification(new_comment)
+        new_comment = Comment.objects.filter(id=new_comment.id).values()
+        return JsonResponse({"result": True, "comment": list(new_comment)})
+    if request.method == 'GET':
+        comment_id = request.GET.get('comment_id')
+        comment = Comment.objects.get(id = comment_id)
+        post = comment.post
+        user = comment.user
+        return JsonResponse({"result": True, "user": serialize_user(user),'post':serialize_post(post)})
+
+
 
 
 @login_required
@@ -147,5 +157,6 @@ def deletecomment(request):
     comment = request.GET.get("comment")
     comment = Comment.objects.get(id=comment)
     comment.is_deleted = True
+    deletePostCommentNotification(comment)
     comment.save()
     return JsonResponse({"result": True, "comment": comment.id})

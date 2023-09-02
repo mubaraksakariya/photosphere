@@ -56,10 +56,22 @@ def serialize_user(user, currentUser=None):
     user_json.pop("password", None)
     user_json["id"] = user.id
     user_json["is_following"] = Follow.objects.filter(
-        user=currentUser, following_id=user.id
+        user=currentUser, following_id=user
     ).exists()
-    user_json["followersCount"] = Follow.objects.filter(following=user).count()
-    user_json["followiigCount"] = Follow.objects.filter(user=user).count()
+    follow_relationship = Follow.objects.filter(
+        user=currentUser, following_id=user
+    ).first()
+
+    if follow_relationship:
+        user_json["is_accepted"] = follow_relationship.is_accepted
+    else:
+        user_json["is_accepted"] = False
+    user_json["followersCount"] = Follow.objects.filter(
+        following=user, is_accepted=True
+    ).count()
+    user_json["followiigCount"] = Follow.objects.filter(
+        user=user, is_accepted=True
+    ).count()
 
     return user_json
 

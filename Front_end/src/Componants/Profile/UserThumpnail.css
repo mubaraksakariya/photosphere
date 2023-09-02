@@ -1,0 +1,31 @@
+.follower-img-div{
+    overflow: hidden;
+    max-width: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    border-radius: 50%;
+}
+.follower-img-div img{
+    object-fit: fill;
+    max-width: 40px;
+}
+.user-thumpnail-main-div{
+    padding-bottom: 10px;
+    position: relative;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.username-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.unfollow-btn-div{
+    position: absolute;
+    right: 10px;
+}
+.unfollow-btn{
+    font-size: small;
+
+}
