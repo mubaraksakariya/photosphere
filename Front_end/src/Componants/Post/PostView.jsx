@@ -11,7 +11,7 @@ function PostView() {
     const mediaUrl = useSelector((state) => state.mediaurl)
     const axioinstance = useContext(AxiosContext)
     const { setIsPostView, setPosts, isPostview } = useContext(HomeContext)
-    const [currentPost, setCurrentPost] = useState(isPostview.post)
+    const [currentPost, setCurrentPost] = useState(isPostview.post_item)
     const [media, setMedia] = useState(isPostview.media)
     const [postowner, setPostOWner] = useState(isPostview.postowner)
     const [postLike, setPostLike] = useState(currentPost.is_liked)
@@ -80,16 +80,7 @@ function PostView() {
                     <i className="bi bi-x-square float-end close-botton-smallscreen" style={{ cursor: 'pointer', color: 'red' }} onClick={() => setIsPostView(false)}></i>
                     <div className="card-body p-0">
                         <div id={currentPost.id} className="carousel slide d-flex flex-column justify-content-around" style={{ maxHeight: '500px', height: '500px', overflow: 'hidden' }}>
-                            {/* {media.length > 1 && <>
-                                <div className="carousel-indicators ">
-                                    {media.map((image, index) => {
-                                        return (
-                                            <button key={uuidv4()} type="button" data-bs-target={`#${currentPost.id}`} data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-current={index === 0 ? "true" : ""} aria-label={`Slide ${index + 1}`} ></button>
-                                        )
-                                    })}
-                                </div>
-                            </>
-                            } */}
+
                             <div className="carousel-inner ">
                                 {
                                     media.map((image, index) => {

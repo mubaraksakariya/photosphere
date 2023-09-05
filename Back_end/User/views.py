@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.utils.crypto import get_random_string
 import re
-from .models import authenticate, CustomUser, serialize_user, Follow
+from .models import authenticate, CustomUser, serialize_user, Follow, serialize_users
 from Notification.models import Notification
 from Notification.views import (
     accept_follower_notification,
@@ -17,7 +17,7 @@ from Notification.views import (
 )
 from .simple_token import generate_jwt_token
 from django.core.mail import send_mail
-
+from django.db.models import Q
 
 import random
 
@@ -194,6 +194,15 @@ def getuser(request):
         id = user.id
     user = serialize_user(user, request.user)
     return JsonResponse({"result": True, "user": user})
+
+
+@login_required
+def suggestedusers(request):
+    followers = Follow.objects.filter(user=request.user).values("following_id")
+    users = CustomUser.objects.exclude(
+        Q(id__in=followers) | Q(is_superuser=True) | Q(id=request.user.id)
+    )
+    return JsonResponse({"result": True, "users": serialize_users(users)})
 
 
 @login_required

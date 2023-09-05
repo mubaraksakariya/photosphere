@@ -76,7 +76,7 @@ function NotificationComponant({ notification }) {
                         media = medaiset;
 
                         // After fetching media, set the state
-                        setIsPostView({ post: true, post: post, media: media, postowner: postowner });
+                        setIsPostView({ post: true, post_item: post, media: media, postowner: postowner });
                         setIsNotification(false)
                     }
                 });

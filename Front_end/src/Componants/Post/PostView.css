@@ -43,6 +43,9 @@
 .close-botton-smallscreen {
   display: none;
 }
+
+
+
 @media (max-width: 767px) {
   .main-post-div {
     flex-direction: column;

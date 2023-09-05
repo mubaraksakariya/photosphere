@@ -19,18 +19,17 @@
     bottom: 10px;
 }
 @media (max-width: 767px) {
+    .left-side-nav{
+        max-height: fit-content;
+    }
     .navbar-items{
         width: 100%;
         display: flex;
         justify-content: space-evenly;
         margin: 0%;
-    }
-    .left-side-nav{
-        max-width: 100%;
-        position:relative;
         padding: 0%;
-        margin: 0%;
     }
+    
     .small-screen-item-hide{
         display: none;
     }

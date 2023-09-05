@@ -15,4 +15,5 @@ urlpatterns = [
     path("profileSettings", views.profileSettings, name="profileSettings"),
     path("followers", views.followers, name="followers"),
     path("followings", views.followings, name="followings"),
+    path("suggestedusers", views.suggestedusers, name="suggestedusers"),
 ]
