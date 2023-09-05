@@ -31,6 +31,7 @@ function ChatUser({ user, setCurrentChat, showUnreadNotification }) {
         <div className='p-2 my-1 border border-dark rounded'
             style={{ cursor: 'pointer', maxHeight: '1oo%', display: 'flex', justifyContent: 'space-between' }}
             onClick={() => {
+                console.log(user);
                 setCurrentChat(user)
                 setHasUnreadMessage(old => false)
             }}

@@ -29,12 +29,7 @@ function RightNav() {
         })
     }, [])
 
-    const manageFollow = (e) => {
-        console.log(e.target.id);
-        axiosInstance.put('follow', { user: e.target.id }).then(response => {
-            console.log(response.data.user);
-        })
-    }
+
     return (
         <div className="container-fluid position-fixed right-side-nav">
             <div className="pb-5 pt-3">
