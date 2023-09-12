@@ -14,26 +14,25 @@ function Posts() {
     useEffect(() => {
         axioinstance.get('post/getfeed', { params: { page: page } }).then((response) => {
             if (response.data.result) {
-                let newPosts = response.data.posts
+                let newPostIds = response.data.posts;
+
                 setPosts((prevPosts) => {
                     if (page === 1) {
-                        return newPosts;
+                        return newPostIds;
                     } else {
-                        let filteredPosts = newPosts.filter((newPost) => {
-                            return !prevPosts.find((post) => post.id === newPost.id)
-                        })
-                        return [...prevPosts, ...filteredPosts];
+                        let filteredIds = newPostIds.filter((postId) => !prevPosts.includes(postId));
+                        return [...prevPosts, ...filteredIds];
                     }
                 });
-            }
-            else {
-                observerRef.current.style.display = "none"
-                setEndOfFeed(true)
-            }
 
-        })
-        if (posts) setIsLoading(false)
-    }, [page])
+                if (posts) setIsLoading(false);
+            } else {
+                observerRef.current.style.display = "none";
+                setEndOfFeed(true);
+            }
+        });
+    }, [page]);
+
 
     useEffect(() => {
         setIsLoading(false)
@@ -68,7 +67,7 @@ function Posts() {
             }
             {posts.map((post) => {
                 return (
-                    <Post key={uuidv4()} post={post} />
+                    <Post key={uuidv4()} post_id={post} />
                 )
             })}
             <div ref={observerRef}>End of feed</div>

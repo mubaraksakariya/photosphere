@@ -7,7 +7,8 @@ import PostComment from './PostComment'
 import { v4 as uuidv4 } from 'uuid';
 import { HomeContext } from '../../Contexts/HomeContext'
 
-function Post({ post }) {
+function Post({ post_id }) {
+    const [post, setPost] = useState([])
     const axioinstance = useContext(AxiosContext)
     const { setIsPostView, setPosts } = useContext(HomeContext)
     const mediaUrl = useSelector((state) => state.mediaurl)
@@ -21,13 +22,14 @@ function Post({ post }) {
     const [comments, setComments] = useState([])
     const profile = useSelector(state => state.profile)
     useEffect(() => {
-        axioinstance.get('post/getmedia', { params: { post_id: post.id } }).then((response) => {
+
+        post.id && axioinstance.get('post/getmedia', { params: { post_id: post.id } }).then((response) => {
             if (response.data.result) {
                 let medaiset = response.data.media
                 setMedia(medaiset)
             }
         })
-        axioinstance.get('getuser', { params: { user: post.user_id } }).then((response) => {
+        post.id && axioinstance.get('getuser', { params: { user: post.user_id } }).then((response) => {
             if (response.data.result) {
                 let user = response.data.user
                 setPostowner(user)
@@ -35,13 +37,20 @@ function Post({ post }) {
         })
         if (post.is_liked) setPostLike(true)
         setTotalLiks(post.total_likes)
-    }, [])
+    }, [post])
+
     useEffect(() => {
-        axioinstance.get('post/getcomments', { params: { post_id: post.id, count: 2 } }).then((response) => {
+        post.id && axioinstance.get('post/getcomments', { params: { post_id: post.id, count: 2 } }).then((response) => {
             if (response.data.result) {
                 let newcomments = response.data.comments
                 setComments(newcomments)
             }
+        })
+    }, [post])
+
+    useEffect(() => {
+        axioinstance.get('post/post', { params: { post_id: post_id } }).then(response => {
+            setPost(response.data.post)
         })
     }, [])
     const manageLike = () => {
@@ -50,19 +59,6 @@ function Post({ post }) {
                 if (postLike) setTotalLiks((like) => like - 1)
                 else setTotalLiks((like) => like + 1)
                 setPostLike(!postLike)
-                setPosts(oldPosts => {
-                    const updatedPosts = oldPosts.map(post => {
-                        if (post.id === post.id) {
-                            return {
-                                ...post,
-                                is_liked: !postLike,
-                                total_likes: postLike ? post.total_likes - 1 : post.total_likes + 1
-                            };
-                        }
-                        return post;
-                    });
-                    return updatedPosts;
-                });
             }
         })
     }

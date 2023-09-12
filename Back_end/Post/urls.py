@@ -10,4 +10,5 @@ urlpatterns = [
     path("commentonpost", views.commentonpost, name="commentonpost"),
     path("getcomments", views.getcomments, name="getcomments"),
     path("deletecomment", views.deletecomment, name="deletecomment"),
+    path("post", views.post, name="post"),
 ]

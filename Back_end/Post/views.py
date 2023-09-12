@@ -2,11 +2,16 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from Notification.views import deletePostCommentNotification, deletepostLikeNotification, postCommentNotification, postLikeNotification
+from Notification.views import (
+    deletePostCommentNotification,
+    deletepostLikeNotification,
+    postCommentNotification,
+    postLikeNotification,
+)
 from User.views import login_required
-from User.models import CustomUser,serialize_user
-from .models import Post, Media, Like, Comment,serialize_post
-from django.core.paginator import Paginator
+from User.models import CustomUser, serialize_user
+from .models import Post, Media, Like, Comment, serialize_post
+from django.core.paginator import Paginator, EmptyPage
 from rest_framework.decorators import api_view
 from django.forms.models import model_to_dict
 
@@ -38,6 +43,7 @@ def createpost(request):
     post = model_to_dict(Post.objects.get(id=post.id))
     return JsonResponse({"result": True, "post": post})
 
+
 @csrf_exempt
 @login_required
 def profileposts(request):
@@ -55,6 +61,7 @@ def profileposts(request):
         return JsonResponse({"result": True, "allPosts": list(allPosts)})
     return JsonResponse({"result": False, "allPosts": list(allPosts)})
 
+
 @csrf_exempt
 @login_required
 def getmedia(request):
@@ -63,25 +70,33 @@ def getmedia(request):
     media = Media.objects.filter(post=post).values_list("file", flat=True)
     return JsonResponse({"result": True, "media": list(media)})
 
+
 @csrf_exempt
 @login_required
 def getfeed(request):
-    allPosts = Post.objects.all().values()
-    page_number = int(request.GET.get("page"))
-    paginator = Paginator(allPosts, 5)
-    if page_number <= paginator.num_pages:
-        posts = paginator.get_page(page_number)
-        for post in posts:
-            post["is_liked"] = False
-            if Like.objects.filter(user=request.user, post=post["id"]).exists():
-                post["is_liked"] = True
-            post["total_likes"] = Like.objects.filter(post=post["id"]).count()
-            post["total_comments"] = Comment.objects.filter(post=post["id"]).count()
+    allPosts = Post.objects.all()
 
-    else:
-        posts = None
-        return JsonResponse({"result": False, "posts": posts})
-    return JsonResponse({"result": True, "posts": list(posts)})
+    page_number = int(request.GET.get("page", 1))
+    paginator = Paginator(allPosts, 5)
+
+    try:
+        posts = paginator.page(page_number)
+        post_ids = [post.id for post in posts]
+    except EmptyPage:
+        return JsonResponse({"result": False, "posts": []})
+
+    return JsonResponse({"result": True, "posts": post_ids})
+
+
+@csrf_exempt
+@login_required
+def post(request):
+    id = request.GET.get("post_id")
+    post = Post.objects.get(id=id)
+    return JsonResponse(
+        {"result": True, "post": serialize_post(post, user=request.user)}
+    )
+
 
 @csrf_exempt
 @login_required
@@ -100,11 +115,13 @@ def likeapost(request):
             postLikeNotification(like)
         return JsonResponse({"result": True, "post_id": post_id})
     if request.method == "GET":
-        like_id = request.GET.get('like_id')
-        like = Like.objects.get(id = like_id)
+        like_id = request.GET.get("like_id")
+        like = Like.objects.get(id=like_id)
         user = like.user
         post = like.post
-        return JsonResponse({"result": True, "post": serialize_post(post),'user' : serialize_user(user)})
+        return JsonResponse(
+            {"result": True, "post": serialize_post(post), "user": serialize_user(user)}
+        )
     print(request.method)
     return JsonResponse({"result": False})
 
@@ -113,7 +130,7 @@ def likeapost(request):
 @csrf_exempt
 @login_required
 def commentonpost(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         post_id = request.POST.get("post_id")
         comment = request.POST.get("comment")
         post = Post.objects.get(id=post_id)
@@ -121,14 +138,14 @@ def commentonpost(request):
         postCommentNotification(new_comment)
         new_comment = Comment.objects.filter(id=new_comment.id).values()
         return JsonResponse({"result": True, "comment": list(new_comment)})
-    if request.method == 'GET':
-        comment_id = request.GET.get('comment_id')
-        comment = Comment.objects.get(id = comment_id)
+    if request.method == "GET":
+        comment_id = request.GET.get("comment_id")
+        comment = Comment.objects.get(id=comment_id)
         post = comment.post
         user = comment.user
-        return JsonResponse({"result": True, "user": serialize_user(user),'post':serialize_post(post)})
-
-
+        return JsonResponse(
+            {"result": True, "user": serialize_user(user), "post": serialize_post(post)}
+        )
 
 
 @login_required
