@@ -27,7 +27,7 @@ function ChatBox({ currentChat }) {
     };
 
     useEffect(() => {
-        if (currentChat) {
+        if (currentChat.id) {
             axioinstance.get('chat/getmessagehistory', { params: { reciever: currentChat.id } }).then(response => {
                 if (response.data.result) {
                     let usermessage = response.data.messages
