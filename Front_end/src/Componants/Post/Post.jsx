@@ -10,7 +10,7 @@ import { HomeContext } from '../../Contexts/HomeContext'
 function Post({ post_id }) {
     const [post, setPost] = useState([])
     const axioinstance = useContext(AxiosContext)
-    const { setIsPostView, setPosts } = useContext(HomeContext)
+    const { setIsPostView } = useContext(HomeContext)
     const mediaUrl = useSelector((state) => state.mediaurl)
     const [media, setMedia] = useState([])
     const [postowner, setPostowner] = useState([])
@@ -22,14 +22,13 @@ function Post({ post_id }) {
     const [comments, setComments] = useState([])
     const profile = useSelector(state => state.profile)
     useEffect(() => {
-
         post.id && axioinstance.get('post/getmedia', { params: { post_id: post.id } }).then((response) => {
             if (response.data.result) {
                 let medaiset = response.data.media
                 setMedia(medaiset)
             }
         })
-        post.id && axioinstance.get('getuser', { params: { user: post.user_id } }).then((response) => {
+        post.id && axioinstance.get('getuser', { params: { user: post.user } }).then((response) => {
             if (response.data.result) {
                 let user = response.data.user
                 setPostowner(user)

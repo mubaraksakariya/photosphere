@@ -29,7 +29,6 @@ const HomeProvider = ({ children }) => {
                 setIsPostView,
                 isNotification,
                 setIsNotification
-
             }}
         >
             {children}
