@@ -126,6 +126,8 @@ def googleSignup(request):
     else:
         user = CustomUser.objects.get(email=email)
     default_storage.delete(f"{email}.jpg")
+    user.is_online = True
+    user.save()
     token = generate_jwt_token(user)
     user = serialize_user(user, user)
     return JsonResponse({"result": True, "token": token, "user": user})
@@ -138,6 +140,8 @@ def signin(request):
     password = request.data.get("password")
     user = authenticate(username=email, password=password)
     if user is not None and user.is_verified:
+        user.is_online = True
+        user.save()
         token = generate_jwt_token(user=user)
         user = serialize_user(user, user)
         return JsonResponse({"result": True, "token": token, "user": user})
@@ -149,6 +153,15 @@ def signin(request):
         )
 
 
+@csrf_exempt
+def logout(request):
+    user = CustomUser.objects.get(id=request.user.id)
+    user.is_online = False
+    user.save()
+    return JsonResponse({"result": True})
+
+
+@csrf_exempt
 @login_required
 def userdetails(request):
     data = request.GET

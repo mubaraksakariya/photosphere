@@ -28,11 +28,10 @@ const authState = createSlice({
             state.isUser = false
             state.isAdmin = false
             state.profile = {}
+            axiosInstance.get('logout')
             localStorage.removeItem('token');
             localStorage.removeItem('current_path');
             delete axiosInstance.defaults.headers.common['Authorization'];
-            // window.location.reload()
-
         },
     }
 })
