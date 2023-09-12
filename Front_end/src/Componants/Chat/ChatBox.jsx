@@ -32,6 +32,8 @@ function ChatBox({ currentChat }) {
                 if (response.data.result) {
                     let usermessage = response.data.messages
                     setMessageHistory(usermessage)
+                } else {
+                    console.log(response.data.error);
                 }
             })
         }

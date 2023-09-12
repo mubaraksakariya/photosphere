@@ -17,10 +17,12 @@ function ChatFullpage() {
         axioinstance.get('chat/getusers').then(response => {
             let allUsers = response.data.users
             setUsers(allUsers)
-            setCurrentChat(allUsers[0])
+
         })
     }, [])
-
+    useEffect(() => {
+        if (users) setCurrentChat(users[0])
+    }, [users])
     const manageSearch = (e) => {
         e.preventDefault()
         console.log("search");
@@ -50,7 +52,7 @@ function ChatFullpage() {
                     <div className='users-div'>
                         {
                             users && users.map((user) => {
-                                return (<ChatUser key={uuidv4()} user={user} setCurrentChat={setCurrentChat} showUnreadNotification={true} />)
+                                return (<ChatUser key={uuidv4()} user={user} setCurrentChat={setCurrentChat} />)
                             })
                         }
                     </div>

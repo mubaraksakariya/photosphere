@@ -21,8 +21,13 @@ class Message(models.Model):
     def __str__(self):
         return f"{self.sender.username} to {self.receiver.username}: {self.message_content[:20]}"
 
+    def setIsRead(self):
+        self.is_read = True
+        self.save()
+
 
 def serialize_chat(message):
+    message.setIsRead()
     message_data = serialize("json", [message])
     message_data = json.loads(message_data)[0]["fields"]
     return message_data

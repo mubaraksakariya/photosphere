@@ -23,16 +23,12 @@ function ChatUser({ user, setCurrentChat, showUnreadNotification }) {
             }
         }
     }, [newMessage])
-    useEffect(() => {
-        setHasUnreadMessage(old => false)
-        console.log(user);
-    }, [user])
+
     return (
 
         <div className='p-2 my-1 border border-dark rounded'
             style={{ cursor: 'pointer', maxHeight: '1oo%', display: 'flex', justifyContent: 'space-between' }}
             onClick={() => {
-                console.log(user);
                 setCurrentChat(user)
                 setHasUnreadMessage(old => false)
             }}
