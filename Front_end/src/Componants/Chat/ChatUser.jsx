@@ -25,6 +25,7 @@ function ChatUser({ user, setCurrentChat, showUnreadNotification }) {
     }, [newMessage])
     useEffect(() => {
         setHasUnreadMessage(old => false)
+        console.log(user);
     }, [user])
     return (
 
