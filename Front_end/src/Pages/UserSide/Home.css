@@ -14,12 +14,16 @@
 }
 /* Add styles for .navbar-bottom and .hide-right-nav */
 @media (max-width: 767px) {
+    .home-main-div{
+        padding: 0px 0px 0px 0px;
+        margin: 0px 0px 0px 0px;
+    }
     .navbar-bottom {
-        display: flex;
+        display:flex;
         justify-content: center;
+        margin: 0%;
         padding: 0%;
         width: 100%;
-        height: fit-content;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -28,7 +32,7 @@
         z-index: 9999;
     }
 
-    .hide-right-nav {
+    .right-nav {
         display: none; /* Hide the RightNav component on mobile screens */
     }
 

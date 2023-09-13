@@ -7,7 +7,6 @@ const HomeProvider = ({ children }) => {
     const [createpost, setCreatePost] = useState(false);
     const [storyview, setStoryView] = useState({ story: false, story_id: null });
     const [isStory, setIsStory] = useState(false);
-    const [posts, setPosts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [isPostview, setIsPostView] = useState({ post: false, post_id: null })
     const [isNotification, setIsNotification] = useState(false)
@@ -21,8 +20,6 @@ const HomeProvider = ({ children }) => {
                 setStoryView,
                 isStory,
                 setIsStory,
-                posts,
-                setPosts,
                 isLoading,
                 setIsLoading,
                 isPostview,

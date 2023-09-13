@@ -20,6 +20,11 @@
 }
 @media (max-width: 767px) {
     .left-side-nav{
+        padding:0%;
+        margin:0%;
+        position: relative;
+        min-width: 100%;
+        min-height: fit-content;
         max-height: fit-content;
     }
     .navbar-items{

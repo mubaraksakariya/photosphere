@@ -70,7 +70,7 @@ function Home() {
                     <Notifications />
                 </div>
             }
-            <div className="row justify-content-center mx-4">
+            <div className="home-main-div row justify-content-center">
                 <div className="col-md-2 navbar-bottom ">
                     <NavBar />
                 </div>
@@ -78,7 +78,7 @@ function Home() {
                     <StoyNav />
                     <Posts />
                 </div>
-                <div className="col-md-3 hide-right-nav">
+                <div className="col-md-3 right-nav">
                     <RightNav />
                 </div>
             </div>

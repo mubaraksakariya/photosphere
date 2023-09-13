@@ -76,7 +76,7 @@ def getmedia(request):
 def getfeed(request):
     allPosts = Post.objects.all()
 
-    page_number = int(request.GET.get("page", 1))
+    page_number = int(request.GET.get("page"))
     paginator = Paginator(allPosts, 5)
 
     try:

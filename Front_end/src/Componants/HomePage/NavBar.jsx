@@ -16,8 +16,6 @@ function NavBar() {
         axiosInstance.get('notification/get-unread-notifications').then(response => {
             if (response.data.result) {
                 let unreadCount = response.data.count
-                console.log("unread notifiaction count is " + unreadCount);
-                console.log(response.data.notification);
                 setNotificationCount(unreadCount)
             }
         })
