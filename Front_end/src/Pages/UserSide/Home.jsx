@@ -74,7 +74,7 @@ function Home() {
                 <div className="col-md-2 navbar-bottom ">
                     <NavBar />
                 </div>
-                <div className="col-md-7">
+                <div className="col-md-6">
                     <StoyNav />
                     <Posts />
                 </div>
